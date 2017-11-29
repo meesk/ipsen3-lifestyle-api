@@ -18,19 +18,21 @@ public class UserDAO
     public UserDAO()
     {
         User user1 = new User();
-        user1.setFullName("First user");
-        user1.setPostcode("1234AB");
-        user1.setStreetnumber("12");
+        user1.setFirstName("First");
+        user1.setMiddleName("");
+        user1.setLastName("User");
+        user1.setUserName("First");
+        user1.setStatus("CONFIRMED");
         user1.setEmailAddress("first@user.com");
-        user1.setPassword("first");
         user1.setRoles(new String[] { "GUEST", "ADMIN" });
         
         User user2 = new User();
-        user2.setFullName("Second user");
-        user2.setPostcode("9876ZY");
-        user2.setStreetnumber("98");
+        user2.setFirstName("Second");
+        user2.setMiddleName("uhu");
+        user2.setLastName("User");
+        user2.setUserName("Second");
+        user2.setStatus("TO_BE_CONFIRMED");
         user2.setEmailAddress("second@user.com");
-        user2.setPassword("second");
         user2.setRoles(new String[] { "GUEST" });
         
         users = new ArrayList<>();
@@ -43,16 +45,15 @@ public class UserDAO
         return users;
     }
     
-    public User get(int id)
+    public User getByName(String name)
     {
-        try
-        {
-            return users.get(id);
-        }
-        catch(IndexOutOfBoundsException exception)
-        {
-            return null;
-        }
+        Optional<User> result = users.stream()
+            .filter(user -> user.getName().equals(name))
+            .findAny();
+        
+        return result.isPresent()
+            ? result.get()
+            : null;
     }
     
     public User getByEmailAddress(String emailAddress)
