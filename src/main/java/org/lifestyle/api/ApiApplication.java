@@ -65,7 +65,7 @@ public class ApiApplication extends Application<ApiConfiguration>
     {
         Builder guiceBuilder = GuiceBundle.<ApiConfiguration>newBuilder()
                 .addModule(module)
-                .enableAutoConfig(new String[] { "nl.hsleiden" })
+                .enableAutoConfig(new String[] { "org.lifestyle.api" })
                 .setConfigClass(configurationClass);
 
         return guiceBuilder.build();
