@@ -7,10 +7,12 @@ package org.lifestyle.api.resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -42,6 +44,12 @@ public class KnowledgeResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Knowledge> getAll(){
         return service.getAll();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void delete(@QueryParam("id")List<Integer> id){
+        service.delete(id);
     }
     
     @Path("/bulk")

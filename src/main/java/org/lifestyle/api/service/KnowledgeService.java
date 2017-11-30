@@ -6,6 +6,7 @@
 package org.lifestyle.api.service;
 
 import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.Knowledge;
@@ -38,5 +39,9 @@ public class KnowledgeService {
     
     public void update(int id, Knowledge knowledge){
         dao.update(id,knowledge);
+    }
+    
+    public void delete(List<Integer> id){
+        dao.delete(id);
     }
 }
