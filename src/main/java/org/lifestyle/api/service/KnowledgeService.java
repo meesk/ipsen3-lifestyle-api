@@ -24,7 +24,11 @@ public class KnowledgeService {
         this.dao=dao;
     }
     
-    public void insert(Knowledge[] knowledge){
+    public void insertBulk(Knowledge[] knowledge){
+        dao.addBulk(knowledge);
+    }
+    
+    public void insert(Knowledge knowledge){
         dao.add(knowledge);
     }
     

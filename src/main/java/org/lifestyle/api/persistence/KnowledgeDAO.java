@@ -25,10 +25,14 @@ public class KnowledgeDAO {
         knows = new ArrayList<>();
     }
 
-    public void add(Knowledge[] knowledge) {
+    public void addBulk(Knowledge[] knowledge) {
         for (Knowledge x : knowledge) {
             this.knows.add(x);
         }
+    }
+
+    public void add(Knowledge knowledge) {
+        this.knows.add(knowledge);
     }
 
     public List<Knowledge> getAll() {

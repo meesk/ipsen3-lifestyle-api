@@ -41,9 +41,16 @@ public class KnowledgeResource {
         return service.getAll();
     }
     
+    @Path("/bulk")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addToDAO(@Valid Knowledge[] knowledge){
+        service.insertBulk(knowledge);
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addToDAO(@Valid Knowledge knowledge){
         service.insert(knowledge);
     }
 }
