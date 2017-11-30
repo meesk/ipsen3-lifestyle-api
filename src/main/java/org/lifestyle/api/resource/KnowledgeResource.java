@@ -13,8 +13,11 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.lifestyle.api.View;
 import org.lifestyle.api.model.Knowledge;
@@ -35,7 +38,7 @@ public class KnowledgeResource {
     }
     
     @GET
-    @JsonView(View.Public.class)
+    @JsonView(View.Private.class)
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Knowledge> getAll(){
         return service.getAll();
@@ -52,5 +55,12 @@ public class KnowledgeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addToDAO(@Valid Knowledge knowledge){
         service.insert(knowledge);
+    }
+    
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(@PathParam("id")int id,@Valid Knowledge knowledge){
+        service.update(id,knowledge);
     }
 }

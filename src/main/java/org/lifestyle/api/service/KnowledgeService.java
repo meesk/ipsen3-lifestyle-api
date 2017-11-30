@@ -35,4 +35,8 @@ public class KnowledgeService {
     public Collection<Knowledge> getAll(){
         return dao.getAll();
     }
+    
+    public void update(int id, Knowledge knowledge){
+        dao.update(id,knowledge);
+    }
 }

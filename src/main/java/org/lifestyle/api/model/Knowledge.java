@@ -21,5 +21,24 @@ public class Knowledge {
     @NotEmpty
     @Length(max = 100)
     @JsonView(View.Public.class)
-    private String kennis;
+    private String knowledge;
+    
+    @JsonView(View.Private.class)
+    private int id;
+    
+    public void setKnowledge(String knowledge){
+        this.knowledge=knowledge;
+    }
+    
+    public String getKnowledge(){
+        return this.knowledge;
+    }
+    
+    public void setId(int id){
+        this.id=id;
+    }
+    
+    public int getId(){
+        return this.id;
+    }
 }
