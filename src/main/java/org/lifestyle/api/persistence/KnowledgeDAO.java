@@ -43,7 +43,7 @@ public class KnowledgeDAO {
             try{
                 Connection con = db.getConnection();
                 PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge) values(?)");
-                ps.setString(1, knowledge.getKnowledge());
+                ps.setString(1, knowledge.getKnowledge().trim());
                 ps.execute();
                 con.close();
             }catch(SQLException e){
@@ -62,7 +62,7 @@ public class KnowledgeDAO {
             Knowledge know;
             while(rs.next()){
                 know = new Knowledge();
-                know.setKnowledge(rs.getString("knowledge"));
+                know.setKnowledge(rs.getString("knowledge").trim());
                 know.setId(rs.getInt("id"));
                 knows.add(know);
             }
