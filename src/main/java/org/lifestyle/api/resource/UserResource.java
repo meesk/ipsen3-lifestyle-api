@@ -56,15 +56,6 @@ public class UserResource
         return service.getById(id);
     }
     
-//    @GET
-//    @Path("/init")
-//    @JsonView(View.Internal.class)
-//    public Collection<User> initAll()
-//    {
-//        return service.initAll();
-//    }
-    
-    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
