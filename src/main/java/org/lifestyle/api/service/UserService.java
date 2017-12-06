@@ -42,6 +42,10 @@ public class UserService extends BaseService<User>
 //        return users;
 //    }
     
+    public User getByEmail(String emailAdress) {
+        return requireResult(dao.getByEmailAddress(emailAdress));
+    }
+    
     public User getById(int id)
     {
         return requireResult(dao.getById(id));
@@ -78,5 +82,15 @@ public class UserService extends BaseService<User>
         User user = getById(id);
         
         dao.delete(id);
+    }
+    
+    public void forgotPassword(String emailAdress) {
+        User user = getByEmail(emailAdress);
+        
+        String password = PasswordService.generateRandomPassword(8);
+        if (MailService.forgotPassword(user, password)) {
+            user.setSalt(PasswordService.getNextSalt());
+            user.setHash(PasswordService.hash(password.toCharArray(), user.getSalt()));
+        }
     }
 }

@@ -91,6 +91,13 @@ public class UserResource
         service.delete(id);
     }
     
+    @POST
+    @Path("/forgotpassword/{email}")
+    @JsonView(View.Public.class)
+    public void forgotPassword(@PathParam("email") String emailAdress) {
+        service.forgotPassword(emailAdress);
+    }
+    
     @GET
     @Path("/me")
     @JsonView(View.Public.class)

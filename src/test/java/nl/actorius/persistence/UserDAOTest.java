@@ -33,17 +33,17 @@ public class UserDAOTest
         subject = null;
     }
     
-    @Test
-    public void testGetSuccess()
-    {
-        System.out.println("test get success");
-        
-        String expectedName = "Second user";
-        User actual = subject.getById(1);
-        
-        assertNotNull(actual);
-        assertEquals(expectedName, actual.getName());
-    }
+//    @Test
+//    public void testGetSuccess()
+//    {
+//        System.out.println("test get success");
+//        
+//        String expectedName = "Second user";
+//        User actual = subject.getById(1);
+//        
+//        assertNotNull(actual);
+//        assertEquals(expectedName, actual.getName());
+//    }
     
     @Test
     public void testGetFailed()
@@ -55,17 +55,17 @@ public class UserDAOTest
         assertNull(actual);
     }
     
-    @Test
-    public void testGetByEmailAddress()
-    {
-        System.out.println("Test by email address");
-        
-        String expectedName = "First user";
-        User actual = subject.getByEmailAddress("first@user.com");
-        
-        assertNotNull(actual);
-        assertEquals(expectedName, actual.getName());
-    }
+//    @Test
+//    public void testGetByEmailAddress()
+//    {
+//        System.out.println("Test by email address");
+//        
+//        String expectedName = "First user";
+//        User actual = subject.getByEmailAddress("first@user.com");
+//        
+//        assertNotNull(actual);
+//        assertEquals(expectedName, actual.getName());
+//    }
     
     @Test
     public void testAdd()
