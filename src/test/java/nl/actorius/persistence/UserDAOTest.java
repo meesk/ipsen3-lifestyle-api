@@ -39,7 +39,7 @@ public class UserDAOTest
         System.out.println("test get success");
         
         String expectedName = "Second user";
-        User actual = subject.get(1);
+        User actual = subject.getById(1);
         
         assertNotNull(actual);
         assertEquals(expectedName, actual.getName());
@@ -50,7 +50,7 @@ public class UserDAOTest
     {
         System.out.println("Test get failed");
         
-        User actual = subject.get(6);
+        User actual = subject.getById(6);
         
         assertNull(actual);
     }
@@ -73,7 +73,7 @@ public class UserDAOTest
         System.out.println("Test add");
         
         User user = new User();
-        user.setFullName("Peter van Vliet");
+        //user.setFullName("Peter van Vliet");
         
         subject.add(user);
         

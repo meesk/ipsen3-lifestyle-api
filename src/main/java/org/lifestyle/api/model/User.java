@@ -1,6 +1,7 @@
 package org.lifestyle.api.model;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.security.Principal;
 import org.lifestyle.api.View;
@@ -16,10 +17,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 // */
 public class User implements Principal
 {
-    @NotEmpty
-    @Length(min = 3, max = 100)
+    @Length(min = 1, max = 100)
     @JsonView(View.Public.class)
-    private String userName;
+    private int userId;
+    
+//    @NotEmpty
+//    @Length(min = 3, max = 100)
+//    @JsonView(View.Public.class)
+//    private String userName;
     
     @NotEmpty
     @Length(min = 2, max = 100)
@@ -34,6 +39,20 @@ public class User implements Principal
     @Length(min = 2, max = 100)
     @JsonView(View.Public.class)
     private String lastName;
+    
+    @NotEmpty
+    @Length(min = 1, max = 40)
+    @JsonView(View.Internal.class)
+    private char[] password;
+    
+    @NotEmpty
+    @Length(min = 1, max = 40)
+    @JsonView(View.Internal.class)
+    private byte[] salt;
+    
+    @Length(min = 1, max = 40)
+    @JsonView(View.Internal.class)
+    private byte[] hash;
     
     @NotEmpty
     @Email
@@ -55,17 +74,17 @@ public class User implements Principal
     }
 
     /**
-     * @return the userName
+     * @return the userId
      */
-    public String getUserName() {
-        return userName;
+    public int getUserId() {
+        return userId;
     }
 
     /**
-     * @param userName the userName to set
+     * @param userId the userId to set
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     /**
@@ -169,8 +188,51 @@ public class User implements Principal
     }
 
     @Override
+    @JsonIgnore
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return this.firstName + this.lastName;
         //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the password
+     */
+    public char[] getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(char[] password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the salt
+     */
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    /**
+     * @param salt the salt to set
+     */
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    /**
+     * @return the hash
+     */
+    public byte[] getHash() {
+        return hash;
+    }
+
+    /**
+     * @param hash the hash to set
+     */
+    public void setHash(byte[] hash) {
+        this.hash = hash;
     }
 }

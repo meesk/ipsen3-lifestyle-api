@@ -41,7 +41,7 @@ public class UserResource
     
     @GET
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    //@RolesAllowed("GUEST")
     public Collection<User> retrieveAll()
     {
         return service.getAll();
@@ -53,8 +53,17 @@ public class UserResource
     @RolesAllowed("GUEST")
     public User retrieve(@PathParam("id") int id)
     {
-        return service.get(id);
+        return service.getById(id);
     }
+    
+//    @GET
+//    @Path("/init")
+//    @JsonView(View.Internal.class)
+//    public Collection<User> initAll()
+//    {
+//        return service.initAll();
+//    }
+    
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -84,7 +93,7 @@ public class UserResource
     
     @GET
     @Path("/me")
-    @JsonView(View.Private.class)
+    @JsonView(View.Public.class)
     public User authenticate(@Auth User authenticator)
     {
         return authenticator;

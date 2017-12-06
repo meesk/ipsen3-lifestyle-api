@@ -4,7 +4,7 @@ assets:
   mappings:
     /assets: /
   overrides:
-    /: ../workshop-client/
+    /: ../ipsen3-lifestyle-client/
 
 server:
   rootPath: /api/*
@@ -15,3 +15,9 @@ server:
   adminConnectors:
     - type: http
       port: 8081
+      
+logging:
+  level: INFO
+  loggers:
+    org.eclipse.jetty: INFO
+    io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper: DEBUG
