@@ -35,7 +35,7 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Us
     {
         User user = userDAO.getByEmailAddress(credentials.getUsername());
         //if (user != null && PasswordService.isExpectedPassword(credentials.getPassword().toCharArray(), user.getSalt(), user.getHash()))
-        if (user != null && new String(user.getPassword()) == credentials.getPassword())
+        if (user != null && new String(user.getPassword()).equals(credentials.getPassword()))
         {
             return Optional.of(user);
         }
