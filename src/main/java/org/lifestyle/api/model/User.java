@@ -61,7 +61,7 @@ public class User implements Principal
     
     @NotEmpty
     @Length()
-    @JsonView(View.Private.class)
+    @JsonView(View.Public.class)
     private String[] roles;
     
     @NotEmpty
