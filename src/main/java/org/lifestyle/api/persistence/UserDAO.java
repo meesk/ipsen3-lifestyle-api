@@ -26,7 +26,7 @@ public class UserDAO
         user1.setEmailAddress("first@user.com");
         user1.setPassword("first".toCharArray());
         user1.setSalt(new byte[16]);
-        user1.setRoles(new String[] { "GUEST", "ADMIN" });
+        user1.setRoles(new String[] { "GUEST" }); 
         
         User user2 = new User();
         user2.setUserId(234);
@@ -37,7 +37,7 @@ public class UserDAO
         user2.setEmailAddress("admin@user.com");
         user2.setPassword("admin".toCharArray());
         user2.setSalt(new byte[16]);
-        user2.setRoles(new String[] { "GUEST" });
+        user2.setRoles(new String[] { "GUEST", "ADMIN" });
         
         users = new ArrayList<>();
         users.add(user1);
