@@ -34,8 +34,8 @@ public class UserDAO
         user2.setMiddleName("uhu");
         user2.setLastName("User");
         user2.setStatus("TO_BE_CONFIRMED");
-        user2.setEmailAddress("second@user.com");
-        user2.setPassword("second".toCharArray());
+        user2.setEmailAddress("admin@user.com");
+        user2.setPassword("admin".toCharArray());
         user2.setSalt(new byte[16]);
         user2.setRoles(new String[] { "GUEST" });
         
