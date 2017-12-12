@@ -14,7 +14,6 @@ import org.lifestyle.api.View;
  */
 public class Client {
     
-    @NotEmpty
     @Length(min = 3, max = 60)
     @JsonView(View.Public.class)
     private String name;
@@ -45,15 +44,14 @@ public class Client {
     @JsonView(View.Public.class)
     private int height;
     
-   
+    @NotEmpty
     @JsonView(View.Public.class)
-    private Date birthDate;
+    private String birthDate;
     
     @NotEmpty
     @JsonView(View.Protected.class)
     private int clientID;
     
-    @NotEmpty
     @JsonView(View.Protected.class)
     private int coachID;
    
@@ -87,7 +85,7 @@ public class Client {
         this.height = height;
     }
     
-    public void setBirthDate(Date birthDate){
+    public void setBirthDate(String birthDate){
         this.birthDate = birthDate;
     }
     
@@ -111,12 +109,12 @@ public class Client {
                
     }
     
-    public String getTussenVoegsel()
+    public String getMiddleName()
     {
         return middleName;
     }
     
-    public String getAchterNaam(){
+    public String getLastName(){
         return lastName;
     }
     
@@ -132,15 +130,17 @@ public class Client {
         return height;
     }
     
-    public Date getBirthDate(){
+    public String getBirthDate(){
         return birthDate;
     }
     
-    private int getClientID(){
+    public int getClientID(){
         return clientID;
     }
     
-    private int getCoachID(){
+    public int getCoachID(){
         return coachID;
     }
 }
+
+
