@@ -2,13 +2,16 @@ package org.lifestyle.api.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.lifestyle.api.model.Client;
 
-
+@Singleton
 public class ClientDAO {
     
-    public ArrayList<Client> allClients;
+    private final ArrayList<Client> allClients;
     
+    @Inject
     public ClientDAO(){
        allClients = new ArrayList();
        
