@@ -1,6 +1,7 @@
 package org.lifestyle.api.service;
 
 import java.util.Collection;
+import javax.inject.Singleton;
 import org.lifestyle.api.model.Client;
 import org.lifestyle.api.persistence.ClientDAO;
 
@@ -8,6 +9,7 @@ import org.lifestyle.api.persistence.ClientDAO;
  *
  * @author abdoul
  */
+@Singleton
 public class ClientService extends BaseService<Client> {
     
     private final ClientDAO dao;
