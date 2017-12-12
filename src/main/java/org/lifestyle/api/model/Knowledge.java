@@ -5,11 +5,9 @@
  */
 package org.lifestyle.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import java.security.Principal;
+import javax.validation.constraints.NotNull;
 import org.lifestyle.api.View;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,6 +27,10 @@ public class Knowledge {
     @JsonView(View.Private.class)
     private boolean confirmed;
     
+    @NotNull
+    @JsonView(View.Public.class)
+    private int addedBy;
+    
     public void setKnowledge(String knowledge){
         this.knowledge=knowledge;
     }
@@ -43,6 +45,14 @@ public class Knowledge {
     
     public int getId(){
         return this.id;
+    }
+    
+    public void setAddedBy(int addedBy){
+        this.addedBy = addedBy;
+    }
+    
+    public int getAddedBy(){
+        return addedBy;
     }
     
     public void setConfirmed(boolean confirmed){
