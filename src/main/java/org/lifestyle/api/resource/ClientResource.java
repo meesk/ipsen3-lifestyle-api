@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Collection;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,8 +33,8 @@ import org.lifestyle.api.service.ClientService;
  *
  * @author abdoul
  */
+@Singleton
 @Path("/clients")
-@Produces(MediaType.APPLICATION_JSON)
 public class ClientResource {
     private ClientDAO dao;
     
@@ -46,21 +47,21 @@ public class ClientResource {
     }
     
     @GET
-    @JsonView(View.Public.class)
+    @JsonView(View.Private.class)
+    @Produces(MediaType.APPLICATION_JSON)
      public Collection<Client> getAll(){
         return service.getAllClients();
     }
     
-    @Path("/client")
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
-    public void createClient(Client client){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createClient(@Valid Client client){
         service.addClient(client);
         System.out.println(client.getName());
         System.out.println(client.getHeight());
     }
     
+    @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
@@ -68,8 +69,9 @@ public class ClientResource {
         service.deleteClient(id);
     }
    
+    @Path("/{id}")
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public void updateClient(@PathParam("id")int id, Client client){
        service.updateClient(id, client);
     }
