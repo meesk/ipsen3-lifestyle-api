@@ -22,7 +22,6 @@ public class MailService{
     public static boolean forgotPassword(User user, String newPassword)
     {
         try{
-
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.auth", "true");
@@ -36,7 +35,7 @@ public class MailService{
             Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() {
 
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("username@yahoo.com", "password");
+                    return new PasswordAuthentication("lscn.test@gmail.com", "HelloWorld");
                 }
             });
 
@@ -51,7 +50,7 @@ public class MailService{
             msg.setSubject( "Wachtwoord vergeten LSCN!");
 
             //--[ Create the body of the mail
-            msg.setText( "Beste %s, \n\n Hierbij ontvangt u uw nieuwe wachtwoord voor LSCN: \n\n"
+            msg.setText( "Beste " + user.getFirstName() + ", \n\n Hierbij ontvangt u uw nieuwe wachtwoord voor LSCN: \n\n"
                     + newPassword + "\n\n U kunt hiermee inloggen op de LSCN website. \n\n" );
 
             //--[ Ask the Transport class to send our mail message
