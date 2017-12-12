@@ -1,6 +1,5 @@
 package org.lifestyle.api.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -55,8 +54,8 @@ public class UserService extends BaseService<User>
     {
         user.setRoles(new String[] { "GUEST" });
         
-        user.setSalt(PasswordService.getNextSalt());
-        user.setHash(PasswordService.hash(user.getPassword(), user.getSalt()));
+        //user.setSalt(PasswordService.getNextSalt());
+        //user.setHash(PasswordService.hash(user.getPassword().toCharArray(), user.getSalt()));
         
         dao.add(user);
     }
@@ -89,8 +88,8 @@ public class UserService extends BaseService<User>
         
         String password = PasswordService.generateRandomPassword(8);
         if (MailService.forgotPassword(user, password)) {
-            user.setSalt(PasswordService.getNextSalt());
-            user.setHash(PasswordService.hash(password.toCharArray(), user.getSalt()));
+//            user.setSalt(PasswordService.getNextSalt());
+//            user.setHash(PasswordService.hash(password.toCharArray(), user.getSalt()));
         }
     }
 }
