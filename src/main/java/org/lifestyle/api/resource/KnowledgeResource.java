@@ -8,6 +8,7 @@ package org.lifestyle.api.resource;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;

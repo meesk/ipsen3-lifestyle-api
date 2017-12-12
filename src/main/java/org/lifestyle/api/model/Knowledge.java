@@ -26,6 +26,9 @@ public class Knowledge {
     @JsonView(View.Private.class)
     private int id;
     
+    @JsonView(View.Private.class)
+    private boolean confirmed;
+    
     public void setKnowledge(String knowledge){
         this.knowledge=knowledge;
     }
@@ -40,5 +43,13 @@ public class Knowledge {
     
     public int getId(){
         return this.id;
+    }
+    
+    public void setConfirmed(boolean confirmed){
+        this.confirmed = confirmed;
+    }
+    
+    public boolean getConfirmed(){
+        return confirmed;
     }
 }

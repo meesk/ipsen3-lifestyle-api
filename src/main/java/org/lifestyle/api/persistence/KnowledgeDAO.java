@@ -42,7 +42,7 @@ public class KnowledgeDAO {
         if(!knowledge.getKnowledge().trim().isEmpty()){
             try{
                 Connection con = db.getConnection();
-                PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge) values(?)");
+                PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge) values(?);");
                 ps.setString(1, knowledge.getKnowledge().trim());
                 ps.execute();
                 con.close();
@@ -58,12 +58,13 @@ public class KnowledgeDAO {
         try{
             Connection con = db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from knowledge order by id");
+            ResultSet rs = st.executeQuery("select * from knowledge order by id;");
             Knowledge know;
             while(rs.next()){
                 know = new Knowledge();
                 know.setKnowledge(rs.getString("knowledge").trim());
                 know.setId(rs.getInt("id"));
+                know.setConfirmed(rs.getBoolean("confirmed"));
                 knows.add(know);
             }
             db.closeConnection(con);
@@ -77,9 +78,10 @@ public class KnowledgeDAO {
     public void update(int id,Knowledge knowledge){ 
         try{
             Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement("update knowledge set knowledge = ? where id = ?");
+            PreparedStatement ps = con.prepareStatement("update knowledge set knowledge = ?, confirmed = ? where id = ?;");
             ps.setString(1,knowledge.getKnowledge());
-            ps.setInt(2,id);
+            ps.setBoolean(2, knowledge.getConfirmed());
+            ps.setInt(3,id);
             ps.execute();
             db.closeConnection(con);
         }catch(SQLException e){
@@ -91,7 +93,7 @@ public class KnowledgeDAO {
         for(int x : id){
             try{
                 Connection con = db.getConnection();
-                PreparedStatement ps = con.prepareStatement("delete from knowledge where id = ?");
+                PreparedStatement ps = con.prepareStatement("delete from knowledge where id = ?;");
                 ps.setInt(1, x);
                 ps.execute();
                 db.closeConnection(con);
