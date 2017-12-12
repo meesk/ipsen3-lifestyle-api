@@ -17,15 +17,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 // */
 public class User implements Principal
 {
-    @Length(min = 1, max = 100)
     @JsonView(View.Public.class)
     private int userId;
-    
-//    @NotEmpty
-//    @Length(min = 3, max = 100)
-//    @JsonView(View.Public.class)
-//    private String userName;
-    
+
     @NotEmpty
     @Length(min = 2, max = 100)
     @JsonView(View.Public.class)
@@ -43,30 +37,24 @@ public class User implements Principal
     @NotEmpty
     @Length(min = 1, max = 40)
     @JsonView(View.Internal.class)
-    private char[] password;
-    
-    @NotEmpty
-    @Length(min = 1, max = 40)
-    @JsonView(View.Internal.class)
-    private byte[] salt;
-    
-    @Length(min = 1, max = 40)
-    @JsonView(View.Internal.class)
-    private byte[] hash;
+    private String password;
     
     @NotEmpty
     @Email
     @JsonView(View.Public.class)
     private String emailAddress;
     
-    @NotEmpty
-    @Length()
     @JsonView(View.Public.class)
     private String[] roles;
     
-    @NotEmpty
     @JsonView(View.Protected.class)
     private String status;
+    
+    @JsonView(View.Internal.class)
+    private byte[] salt;
+    
+    @JsonView(View.Internal.class)
+    private byte[] hash;
     
     public boolean equals(User user)
     {
@@ -197,14 +185,14 @@ public class User implements Principal
     /**
      * @return the password
      */
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
     /**
      * @param password the password to set
      */
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

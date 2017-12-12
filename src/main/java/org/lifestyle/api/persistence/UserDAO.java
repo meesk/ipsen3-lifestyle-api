@@ -24,8 +24,7 @@ public class UserDAO
         user1.setLastName("User");
         user1.setStatus("CONFIRMED");
         user1.setEmailAddress("first@user.com");
-        user1.setPassword("first".toCharArray());
-        user1.setSalt(new byte[16]);
+        user1.setPassword("first");
         user1.setRoles(new String[] { "GUEST" }); 
         
         User user2 = new User();
@@ -35,8 +34,7 @@ public class UserDAO
         user2.setLastName("User");
         user2.setStatus("TO_BE_CONFIRMED");
         user2.setEmailAddress("admin@user.com");
-        user2.setPassword("admin".toCharArray());
-        user2.setSalt(new byte[16]);
+        user2.setPassword("admin");
         user2.setRoles(new String[] { "GUEST", "ADMIN" });
         
         users = new ArrayList<>();
