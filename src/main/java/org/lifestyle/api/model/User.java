@@ -17,6 +17,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 // */
 public class User implements Principal
 {
+    private enum UserStatus {
+        ACTIVE, INACTIVE, NOT_CONFIRMED;
+    }
+    
+    private enum UserRoles {
+        COACH, ADMIN
+    }
+    
     @JsonView(View.Public.class)
     private int userId;
 
@@ -45,10 +53,10 @@ public class User implements Principal
     private String emailAddress;
     
     @JsonView(View.Public.class)
-    private String[] roles;
+    private UserRoles role;
     
     @JsonView(View.Protected.class)
-    private String status;
+    private UserStatus status;
     
     @JsonView(View.Internal.class)
     private byte[] salt;
@@ -134,45 +142,42 @@ public class User implements Principal
     /**
      * @return the status
      */
-    public String getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(String status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
     
-    public boolean hasRole(String roleName)
+    public void setStatus(String status) {
+        this.status = UserStatus.valueOf(status.toUpperCase());
+    }
+    
+    public boolean isRole(String role)
     {
-        if (roles != null)
-        {
-            for(String role : roles)
-            {
-                if(roleName.equals(role))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
+        return role.equals(this.getRole().name());
     }
 
     /**
      * @return the roles
      */
-    public String[] getRoles() {
-        return roles;
+    public UserRoles getRole() {
+        return role;
     }
 
     /**
      * @param roles the roles to set
      */
-    public void setRoles(String[] roles) {
-        this.roles = roles;
+    public void setRole(UserRoles role) {
+        this.role = role;
+    }
+    
+    public void setRole(String role) {
+        this.role = UserRoles.valueOf(role.toUpperCase());
     }
 
     @Override

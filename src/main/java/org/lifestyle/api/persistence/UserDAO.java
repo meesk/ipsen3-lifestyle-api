@@ -22,20 +22,20 @@ public class UserDAO
         user1.setFirstName("First");
         user1.setMiddleName("ghjhg");
         user1.setLastName("User");
-        user1.setStatus("CONFIRMED");
+        user1.setStatus("ACTIVE");
         user1.setEmailAddress("first@user.com");
         user1.setPassword("first");
-        user1.setRoles(new String[] { "GUEST" }); 
+        user1.setRole("COACH"); 
         
         User user2 = new User();
         user2.setUserId(234);
         user2.setFirstName("Second");
         user2.setMiddleName("uhu");
         user2.setLastName("User");
-        user2.setStatus("TO_BE_CONFIRMED");
+        user2.setStatus("ACTIVE");
         user2.setEmailAddress("admin@user.com");
         user2.setPassword("admin");
-        user2.setRoles(new String[] { "GUEST", "ADMIN" });
+        user2.setRole("ADMIN");
         
         users = new ArrayList<>();
         users.add(user1);

@@ -52,7 +52,7 @@ public class UserService extends BaseService<User>
     
     public void add(User user)
     {
-        user.setRoles(new String[] { "GUEST" });
+        user.setRole("COACH");
         
         //user.setSalt(PasswordService.getNextSalt());
         //user.setHash(PasswordService.hash(user.getPassword().toCharArray(), user.getSalt()));
@@ -65,7 +65,7 @@ public class UserService extends BaseService<User>
         // Controleren of deze gebruiker wel bestaat
         User oldUser = getById(id);
         
-        if (!authenticator.hasRole("ADMIN"))
+        if (!authenticator.isRole("ADMIN"))
         {
             // Vaststellen dat de geauthenticeerde gebruiker
             // zichzelf aan het aanpassen is
