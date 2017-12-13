@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Laurens Jan
  */
 public class Knowledge {
+    
     @NotEmpty
     @Length(max = 100)
     @JsonView(View.Public.class)

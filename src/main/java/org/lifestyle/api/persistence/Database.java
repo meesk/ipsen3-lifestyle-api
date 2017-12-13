@@ -16,13 +16,13 @@ import java.sql.SQLException;
  * @author Laurens Jan
  */
 public class Database {
-    private static String url = "jdbc:postgresql://localhost:5432/ipsen3";
-    private static String un = "postgres";
-    private static String pw = "Covoe123456";
+    private static String url = "jdbc:mysql://145.101.16.190:3306/groep06";
+    private static String un = "groep06";
+    private static String pw = "groep06";
     
     public Database(){
         try{
-           Class.forName("org.postgresql.Driver");
+           Class.forName("com.mysql.jdbc.Driver");
        }catch(ClassNotFoundException e){
            e.printStackTrace();
        }
