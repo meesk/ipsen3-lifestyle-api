@@ -83,13 +83,15 @@ public class UserService extends BaseService<User>
         dao.delete(id);
     }
     
-    public void forgotPassword(String emailAdress) {
+    public boolean forgotPassword(String emailAdress) {
         User user = getByEmail(emailAdress);
         
         String password = PasswordService.generateRandomPassword(8);
         if (MailService.forgotPassword(user, password)) {
+              user.setPassword(password);
 //            user.setSalt(PasswordService.getNextSalt());
 //            user.setHash(PasswordService.hash(password.toCharArray(), user.getSalt()));
-        }
+        } else return false;
+        return true;
     }
 }
