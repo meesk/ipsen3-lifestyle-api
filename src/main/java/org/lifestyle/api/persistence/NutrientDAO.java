@@ -9,55 +9,45 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.lifestyle.api.model.Product;
+import org.lifestyle.api.model.Nutrient;
 
 /**
  *
  * @author meesk
  */
 @Singleton
-public class ProductDAO {
+public class NutrientDAO {
     
     
-    private final List<Product> products;
+    private final List<Nutrient> nutrients;
 //    private final Database db;
 
     @Inject
-    public ProductDAO() {
-        products = new ArrayList<>();
+    public NutrientDAO() {
+        nutrients = new ArrayList<>();
         
-        Product product1 = new Product();
-        product1.setProductId(124);
-        product1.setProductName("Test product");
-        product1.setProductDescription("Product description");
-        product1.setManufacturerName("Kellog's");
-        product1.setMeasurement("mg");
-        product1.setAmount(100);
-        product1.setIsAdded(true);
-        product1.setIsConfirmed(false);
-        products.add(product1);
+        Nutrient nutrient1 = new Nutrient();
+        nutrient1.setNutrientId(1);
+        nutrient1.setNutrientName("Koolhydraten");
+        nutrient1.setNutrientMeasurement("g");
+        nutrients.add(nutrient1);
         
-        Product product2 = new Product();
-        product2.setProductId(123);
-        product2.setProductName("Test product2");
-        product2.setProductDescription("Product description2");
-        product2.setManufacturerName("lala");
-        product2.setMeasurement("g");
-        product2.setAmount(200);
-        product2.setIsAdded(true);
-        product2.setIsConfirmed(true);
-        products.add(product2);
+        Nutrient nutrient2 = new Nutrient();
+        nutrient2.setNutrientId(2);
+        nutrient2.setNutrientName("Vezels");
+        nutrient2.setNutrientMeasurement("g");
+        nutrients.add(nutrient2);
         
 //        db = new Database();
     }
 
-    public void addBulk(Product[] knowledge) {
-        for (Product x : knowledge) {
+    public void addBulk(Nutrient[] nutrient) {
+        for (Nutrient x : nutrient) {
             add(x);
         }
     }
 
-    public void add(Product product){
+    public void add(Nutrient nutrient){
 //        if(!product.getProduct().trim().isEmpty()){
 //            try{
 //                Connection con = db.getConnection();
@@ -70,10 +60,10 @@ public class ProductDAO {
 //            }
 //        }else{
 //        }
-            products.add(product);
+            nutrients.add(nutrient);
     }
 
-    public List<Product> getAll() {
+    public List<Nutrient> getAll() {
 //        products.clear();
 //        try{
 //            Connection con = db.getConnection();
@@ -92,10 +82,10 @@ public class ProductDAO {
 //            e.printStackTrace();
 //            return null;
 //        }
-          return products;
+          return nutrients;
     }
     
-    public void update(int id, Product product){ 
+    public void update(int id, Nutrient nutrient){ 
 //        try{
 //            Connection con = db.getConnection();
 //            PreparedStatement ps = con.prepareStatement("update product set product = ? where id = ?");
