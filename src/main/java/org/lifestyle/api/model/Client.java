@@ -4,6 +4,8 @@ package org.lifestyle.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Date;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.lifestyle.api.View;
@@ -36,11 +38,11 @@ public class Client {
     @JsonView(View.Public.class)
     private String phoneNumber;
     
-    @NotEmpty
+    @NotNull
     @JsonView(View.Public.class)
     private double weight;
     
-    @NotEmpty
+    @NotNull
     @JsonView(View.Public.class)
     private int height;
     
@@ -48,7 +50,7 @@ public class Client {
     @JsonView(View.Public.class)
     private String birthDate;
     
-    @NotEmpty
+    @NotNull
     @JsonView(View.Protected.class)
     private int clientID;
     
