@@ -25,13 +25,6 @@ public class KnowledgeService {
         this.dao=dao;
     }
     
-    public void insertBulk(Knowledge[] knowledge){
-        for(Knowledge x : knowledge){
-            x.setConfirmed(false);
-        }
-        dao.addBulk(knowledge);
-    }
-    
     public void insert(Knowledge knowledge){
         knowledge.setConfirmed(false);
         dao.add(knowledge);

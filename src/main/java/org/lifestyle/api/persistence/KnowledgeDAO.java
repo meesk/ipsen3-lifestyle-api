@@ -32,12 +32,6 @@ public class KnowledgeDAO {
         db = new Database();
     }
 
-    public void addBulk(Knowledge[] knowledge) {
-        for (Knowledge x : knowledge) {
-            add(x);
-        }
-    }
-
     public void add(Knowledge knowledge){
         if(!knowledge.getKnowledge().trim().isEmpty()){
             try{
@@ -60,7 +54,7 @@ public class KnowledgeDAO {
         try{
             Connection con = db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from knowledge order by id;");
+            ResultSet rs = st.executeQuery("select * from knowledge order by confirmed,id;");
             Knowledge know;
             while(rs.next()){
                 know = new Knowledge();

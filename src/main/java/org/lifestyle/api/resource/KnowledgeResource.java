@@ -53,13 +53,6 @@ public class KnowledgeResource {
         service.delete(id);
     }
     
-    @Path("/bulk")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addToDAO(@Valid Knowledge[] knowledge){
-        service.insertBulk(knowledge);
-    }
-    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addToDAO(@Valid Knowledge knowledge){
