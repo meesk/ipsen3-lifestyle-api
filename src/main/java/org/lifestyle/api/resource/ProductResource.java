@@ -21,6 +21,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.json.*;
+import javax.ws.rs.core.Response;
 import org.lifestyle.api.View;
 import org.lifestyle.api.model.Product;
 import org.lifestyle.api.service.ProductService;
@@ -62,8 +64,16 @@ public class ProductResource {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addToDAO(@Valid Product product){
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addToDAO(@Valid Product product){
         service.insert(product);
+        
+        String json = Json.createObjectBuilder()
+            .add("id", 5)
+            .build()
+            .toString();
+        
+        return Response.status(200).entity(json).build();
     }
     
     @Path("/{id}")

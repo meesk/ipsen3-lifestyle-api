@@ -16,9 +16,9 @@ import java.sql.SQLException;
  * @author Laurens Jan
  */
 public class Database {
-    private static String url = "jdbc:mysql://145.101.16.190:3306/groep06";
-    private static String un = "groep06";
-    private static String pw = "groep06";
+    private static String url = "jdbc:mysql://localhost:3306/groep06";
+    private static String un = "root";
+    private static String pw = "";
     
     public Database(){
         try{
