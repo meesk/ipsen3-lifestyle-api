@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.User;
+import org.lifestyle.api.model.User.UserRoles;
+import org.lifestyle.api.model.User.UserStatus;
 
 /**
  *
@@ -25,7 +27,7 @@ public class UserDAO
         user1.setStatus("ACTIVE");
         user1.setEmailAddress("first@user.com");
         user1.setPassword("first");
-        user1.setRole("COACH"); 
+        user1.setRole("COACH");
         
         User user2 = new User();
         user2.setUserId(234);
@@ -37,9 +39,42 @@ public class UserDAO
         user2.setPassword("admin");
         user2.setRole("ADMIN");
         
+        User user3 = new User();
+        user3.setUserId(345);
+        user3.setFirstName("Third");
+        user3.setMiddleName("ghjhg");
+        user3.setLastName("User");
+        user3.setStatus("NOT_CONFIRMED");
+        user3.setEmailAddress("third@user.com");
+        user3.setPassword("third");
+        user3.setRole("COACH");
+        
+        User user4 = new User();
+        user4.setUserId(456);
+        user4.setFirstName("Fourth");
+        user4.setMiddleName("ghjhg");
+        user4.setLastName("User");
+        user4.setStatus("ACTIVE");
+        user4.setEmailAddress("fourth@user.com");
+        user4.setPassword("fourth");
+        user4.setRole("COACH"); 
+        
+        User user5 = new User();
+        user5.setUserId(567);
+        user5.setFirstName("fifth");
+        user5.setMiddleName("ghjhg");
+        user5.setLastName("User");
+        user5.setStatus("INACTIVE");
+        user5.setEmailAddress("fifth@user.com");
+        user5.setPassword("fifth");
+        user5.setRole("COACH"); 
+        
         users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
     }
     
     public List<User> getAll()
@@ -86,11 +121,23 @@ public class UserDAO
     
     public void update(int id, User user)
     {
-        users.set(id, user);
+        int index = -1;
+        for(int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == id)
+                index = i;
+        }
+        if(index != -1)
+            users.set(index, user);
     }
     
     public void delete(int id)
     {
-        users.remove(id);
+        int index = -1;
+        for(int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == id)
+                index = i;
+        }
+        if(index != -1)
+            users.remove(index);
     }
 }

@@ -23,10 +23,6 @@ public class Product {
     @JsonView(View.Public.class)
     private String productName;
     
-    @Length(min = 0, max = 100)
-    @JsonView(View.Public.class)
-    private String productDescription;
-    
     @NotEmpty
     @Length(min = 2, max = 100)
     @JsonView(View.Public.class)
@@ -69,14 +65,6 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
-
     public String getManufacturerName() {
         return manufacturerName;
     }
@@ -109,7 +97,7 @@ public class Product {
         this.comments = comments;
     }
 
-    public boolean getIsAdded() {
+    public Boolean getIsAdded() {
         return isAdded;
     }
 
@@ -117,7 +105,7 @@ public class Product {
         this.isAdded = isAdded;
     }
 
-    public boolean getIsConfirmed() {
+    public Boolean getIsConfirmed() {
         return isConfirmed;
     }
 

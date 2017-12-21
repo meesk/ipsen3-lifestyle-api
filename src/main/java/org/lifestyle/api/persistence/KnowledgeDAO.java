@@ -25,11 +25,34 @@ public class KnowledgeDAO {
 
     private final List<Knowledge> knows;
     private final Database db;
+    private List<Knowledge> knowledgeList = new ArrayList<Knowledge>();
 
     @Inject
     public KnowledgeDAO() {
         knows = new ArrayList<>();
         db = new Database();
+        
+        Knowledge k1 = new Knowledge();
+        k1.setAddedBy(0);
+        k1.setConfirmed(true);
+        k1.setId(0);
+        k1.setKnowledge("hello world is you best friend");
+        
+        Knowledge k2 = new Knowledge();
+        k2.setAddedBy(0);
+        k2.setConfirmed(true);
+        k2.setId(0);
+        k2.setKnowledge("hello world is you best friend2");
+        
+        Knowledge k3 = new Knowledge();
+        k3.setAddedBy(0);
+        k3.setConfirmed(true);
+        k3.setId(0);
+        k3.setKnowledge("hello world is you best friend3");
+        
+        knowledgeList.add(k1);
+        knowledgeList.add(k2);
+        knowledgeList.add(k3);
     }
 
     public void add(Knowledge knowledge){
@@ -50,26 +73,27 @@ public class KnowledgeDAO {
     }
 
     public List<Knowledge> getAll() {
-        knows.clear();
-        try{
-            Connection con = db.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from knowledge order by confirmed,id;");
-            Knowledge know;
-            while(rs.next()){
-                know = new Knowledge();
-                know.setKnowledge(rs.getString("knowledge").trim());
-                know.setId(rs.getInt("id"));
-                know.setAddedBy(rs.getInt("addedby"));
-                know.setConfirmed(rs.getBoolean("confirmed"));
-                knows.add(know);
-            }
-            db.closeConnection(con);
-            return knows;
-        }catch(SQLException e){
-            e.printStackTrace();
-            return null;
-        }
+        return knowledgeList;
+//        knows.clear();
+//        try{
+//            Connection con = db.getConnection();
+//            Statement st = con.createStatement();
+//            ResultSet rs = st.executeQuery("select * from knowledge order by confirmed,id;");
+//            Knowledge know;
+//            while(rs.next()){
+//                know = new Knowledge();
+//                know.setKnowledge(rs.getString("knowledge").trim());
+//                know.setId(rs.getInt("id"));
+//                know.setAddedBy(rs.getInt("addedby"));
+//                know.setConfirmed(rs.getBoolean("confirmed"));
+//                knows.add(know);
+//            }
+//            db.closeConnection(con);
+//            return knows;
+//        }catch(SQLException e){
+//            e.printStackTrace();
+//            return null;
+//        }
     }
     
     public void update(int id,Knowledge knowledge){ 

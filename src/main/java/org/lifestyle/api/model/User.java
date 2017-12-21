@@ -17,11 +17,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 // */
 public class User implements Principal
 {
-    private enum UserStatus {
+    public enum UserStatus {
         ACTIVE, INACTIVE, NOT_CONFIRMED;
     }
     
-    private enum UserRoles {
+    public enum UserRoles {
         COACH, ADMIN
     }
     
@@ -55,7 +55,7 @@ public class User implements Principal
     @JsonView(View.Public.class)
     private UserRoles role;
     
-    @JsonView(View.Protected.class)
+    @JsonView(View.Public.class)
     private UserStatus status;
     
     @JsonView(View.Internal.class)
