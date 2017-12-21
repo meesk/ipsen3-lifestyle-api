@@ -47,7 +47,7 @@ public class Client {
     private int height;
     
     @JsonView(View.Public.class)
-    private Date birthDate;
+    private String birthDate;
     
     @NotNull
     @JsonView(View.Protected.class)
@@ -86,7 +86,7 @@ public class Client {
         this.height = height;
     }
     
-    public void setBirthDate(Date birthDate){
+    public void setBirthDate(String birthDate){
         this.birthDate = birthDate;
     }
     
@@ -131,7 +131,7 @@ public class Client {
         return height;
     }
     
-    public Date getBirthDate(){
+    public String getBirthDate(){
         return birthDate;
     }
     
