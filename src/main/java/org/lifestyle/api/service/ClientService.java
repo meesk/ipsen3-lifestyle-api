@@ -34,8 +34,8 @@ public class ClientService extends BaseService<Client> {
         dao.removeClient(id);
     }
     
-    public void updateClient(int id, Client client){
-      dao.updateClient(id, client);
+    public void updateClient(Client client){
+      dao.updateClient(client);
     }
 }
 
