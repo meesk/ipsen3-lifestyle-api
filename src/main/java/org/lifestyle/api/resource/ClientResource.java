@@ -72,8 +72,11 @@ public class ClientResource {
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateClient(@PathParam("id")int id, Client client){
-       service.updateClient(id, client);
+    public void updateClient(@PathParam("id")int id,Client client){
+       System.out.println(client.getFirstName());
+       System.out.println(client.getHeight());
+       System.out.println(client.getClientID());
+       service.updateClient(client);
     }
     
 }
