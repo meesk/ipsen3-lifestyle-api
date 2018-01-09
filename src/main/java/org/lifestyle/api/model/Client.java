@@ -16,10 +16,6 @@ import org.lifestyle.api.View;
  */
 public class Client {
     
-    @Length(min = 3, max = 60)
-    @JsonView(View.Public.class)
-    private String name;
-    
     @NotEmpty
     @Length(min = 3, max = 30)
     @JsonView(View.Public.class)
@@ -55,12 +51,6 @@ public class Client {
     
     @JsonView(View.Protected.class)
     private int coachID;
-   
-    
-    // All the setters 
-    public void setName(String firstName, String lastName){
-        this.name = this.firstName + " " + this.lastName;
-    }
     
     public void setFirstName(String firstName){
         this.firstName = firstName;
