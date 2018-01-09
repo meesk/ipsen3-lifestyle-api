@@ -1,5 +1,10 @@
 package org.lifestyle.api.persistence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -10,10 +15,15 @@ import org.lifestyle.api.model.Client;
 public class ClientDAO {
     
     private final ArrayList<Client> allClients;
+    private final Database db;
     
     @Inject
     public ClientDAO(){
        allClients = new ArrayList();
+       db = new Database();
+       
+       
+       
        
        Client client = new Client();
        client.setFirstName("Barry");
@@ -74,33 +84,55 @@ public class ClientDAO {
         }
     }
     
-    public void updateClient(int id, Client client){
-        Client currentClient;
-        for(Client clients : allClients){
-            if(clients.getClientID() == id){
-                currentClient = clients;
-                System.out.println(currentClient.getLastName() + " de oude client");
-                allClients.remove(currentClient);
-                currentClient.setFirstName(client.getFirstName());
-                currentClient.setMiddleName(client.getMiddleName());
-                currentClient.setLastName(client.getLastName());
-                currentClient.setPhoneNumber(client.getPhoneNumber());
-                currentClient.setWeight(client.getWeight());
-                currentClient.setHeight(client.getHeight());
-                currentClient.setBirthDate(client.getBirthDate());
-                currentClient.setClientID(id);
-                allClients.add(currentClient);
-                System.out.println(currentClient.getFirstName() + " de nieuwe client");
-                break;     
-            }
-        }
+    public void updateClient(Client client){
         
+        String query = "update client set voornaam = ?, tussenvoegsel = ?, achternaam = ?, gewicht = ?, lengte = ?, geboortedatum = ?, tel_nr = ? where id = ?";
        
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, client.getFirstName());
+            ps.setString(2, client.getMiddleName());
+            ps.setString(3, client.getLastName());
+            ps.setDouble(4, client.getWeight());
+            ps.setInt(5, client.getHeight());
+            ps.setString(6, client.getBirthDate());
+            ps.setString(7, client.getPhoneNumber());
+            ps.setInt(8, client.getClientID());
+            ps.execute();
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }  
 
     }
    
     public List getClient(){
-        return allClients;
+       allClients.clear();
+       
+       try{
+            Connection con = db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from client;");
+            Client client;
+            while(rs.next()){
+                client = new Client();
+                client.setClientID(rs.getInt("id"));
+                client.setFirstName(rs.getString("voornaam"));
+                client.setMiddleName(rs.getString("tussenvoegsel"));
+                client.setLastName(rs.getString("achternaam"));
+                client.setWeight(rs.getDouble("gewicht"));
+                client.setHeight(rs.getInt("lengte"));
+                client.setBirthDate(rs.getString("geboortedatum"));
+                client.setPhoneNumber(rs.getString("tel_nr"));
+                allClients.add(client);
+           }
+          db.closeConnection(con);
+            return allClients;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
             
     
