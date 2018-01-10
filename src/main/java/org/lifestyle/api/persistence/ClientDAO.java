@@ -33,22 +33,22 @@ public class ClientDAO {
        
        
        
-       Client client = new Client();
-       client.setFirstName("Barry");
-       client.setLastName("Pieters");
-       client.setHeight(185);
-       client.setWeight(80);
-       client.setPhoneNumber("0618481481");
-       
-       Client client2 = new Client();
-       client2.setFirstName("John");
-       client2.setLastName("thegreat");
-       client2.setHeight(173);
-       client2.setWeight(72);
-       client2.setPhoneNumber("0612399193");
-       
-       allClients.add(client);
-       allClients.add(client2);
+//       Client client = new Client();
+//       client.setFirstName("Barry");
+//       client.setLastName("Pieters");
+//       client.setHeight(185);
+//       client.setWeight(80);
+//       client.setPhoneNumber("0618481481");
+//       
+//       Client client2 = new Client();
+//       client2.setFirstName("John");
+//       client2.setLastName("thegreat");
+//       client2.setHeight(173);
+//       client2.setWeight(72);
+//       client2.setPhoneNumber("0612399193");
+//       
+//       allClients.add(client);
+//       allClients.add(client2);
     }
     
     
@@ -133,12 +133,17 @@ public class ClientDAO {
    
     public List getClient(){
        allClients.clear();
-       java.util.Date newDate = null;
+       Date newDate = null;
+
        
        try{
             Connection con = db.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from client;");
+            
+            String query = "select * from client;";
+            PreparedStatement allUsers = con.prepareStatement(query);
+            
+            ResultSet rs = allUsers.executeQuery();
+                        
             Client client;
             while(rs.next()){
                 newDate = rs.getDate("geboortedatum");
@@ -154,6 +159,51 @@ public class ClientDAO {
                 client.setPhoneNumber(rs.getString("tel_nr"));
                 allClients.add(client);
            }
+            
+            System.out.println("GOT ALL THE CLIENTS : " + allClients);
+            
+          db.closeConnection(con);
+            return allClients;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List getCoachClients(int id){
+       allClients.clear();
+       
+       Date newDate = null;
+       
+       try{
+            Connection con = db.getConnection();
+            
+            String query = "select * from client where coach_id=?;";
+            PreparedStatement allUsers = con.prepareStatement(query);
+            
+            allUsers.setInt(1, id);
+            ResultSet rs = allUsers.executeQuery();
+
+            System.out.println("ABOUT TO GET CLIENTS THAT ARE FROM COACH : " + id);
+                        
+            Client client;
+            while(rs.next()){
+                newDate = rs.getDate("geboortedatum");
+                
+                client = new Client();
+                client.setClientID(rs.getInt("id"));
+                client.setFirstName(rs.getString("voornaam"));
+                client.setMiddleName(rs.getString("tussenvoegsel"));
+                client.setLastName(rs.getString("achternaam"));
+                client.setWeight(rs.getDouble("gewicht"));
+                client.setHeight(rs.getInt("lengte"));
+                client.setBirthDate(newDate);
+                client.setPhoneNumber(rs.getString("tel_nr"));
+                allClients.add(client);
+           }
+            
+            System.out.println("GOT ALL THE CLIENTS : " + allClients);
+            
           db.closeConnection(con);
             return allClients;
         }catch(SQLException e){

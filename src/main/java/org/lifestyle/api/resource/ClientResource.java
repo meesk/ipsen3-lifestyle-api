@@ -26,6 +26,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.lifestyle.api.View;
 import org.lifestyle.api.model.Client;
+import org.lifestyle.api.model.User;
 import org.lifestyle.api.persistence.ClientDAO;
 import org.lifestyle.api.service.ClientService;
 
@@ -52,7 +53,17 @@ public class ClientResource {
     @JsonView(View.Private.class)
     @Produces(MediaType.APPLICATION_JSON)
      public Collection<Client> getAll(){
+                                   
         return service.getAllClients();
+    }
+
+    @Path("/{id}")     
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Client> getClients(@PathParam("id") int id){
+
+        return service.getCoachClients(id);
     }
     
     @POST
@@ -74,7 +85,9 @@ public class ClientResource {
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     public void deleteClient(@QueryParam("id")int id){
-        service.deleteClient(id);
+        
+        System.out.println("IN THE DELETe  :" + id);
+//        service.deleteClient(id);
     }
    
     @Path("/{id}")

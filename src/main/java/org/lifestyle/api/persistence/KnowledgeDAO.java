@@ -56,13 +56,13 @@ public class KnowledgeDAO {
         try{
             Connection con = db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from kennis order by bevestigd,id;");
+            ResultSet rs = st.executeQuery("select * from kennis order by id;");
             Knowledge know;
             while(rs.next()){
                 know = new Knowledge();
                 know.setKnowledge(rs.getString("tip").trim());
                 know.setId(rs.getInt("id"));
-                know.setAddedBy(rs.getInt("toegevoegd_door"));
+//                know.setAddedBy(rs.getInt("toegevoegd_door"));
                 know.setConfirmed(rs.getBoolean("bevestigd"));
                 knows.add(know);
             }
