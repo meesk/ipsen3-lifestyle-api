@@ -4,17 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.Client;
@@ -79,7 +73,7 @@ public class ClientDAO {
         
         System.out.println(client.getBirthDate());
         
-        String query = "insert into Client(voornaam, tussenvoegsel, achternaam, gewicht, lengte, geboortedatum, tel_nr) values (?,?,?,?,?,?,?);";
+        String query = "insert into Client(voornaam, tussenvoegsel, achternaam, gewicht, lengte, geboortedatum, tel_nr, coach_id) values (?,?,?,?,?,?,?,?);";
         try{
             
             Connection con = db.getConnection();
@@ -91,6 +85,7 @@ public class ClientDAO {
             ps.setInt(5, client.getHeight());
             ps.setDate(6, sql);
             ps.setString(7, client.getPhoneNumber());
+            ps.setInt(8, client.getCoachID());
             ps.execute();
             db.closeConnection(con);
         }catch(SQLException e){

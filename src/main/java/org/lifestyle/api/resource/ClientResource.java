@@ -66,16 +66,16 @@ public class ClientResource {
         return service.getCoachClients(id);
     }
     
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createClient(@Valid Client client){
      
-        System.out.println(client.getBirthDate());
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         String format = formatter.format(client.getBirthDate());
-        System.out.println(format);
-       
+        
+        System.out.println(client.getCoachID());
         service.addClient(format, client);
         
     }

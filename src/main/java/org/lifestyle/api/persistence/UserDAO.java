@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Singleton;
-import org.lifestyle.api.model.Client;
 import org.lifestyle.api.model.User;
-import org.lifestyle.api.model.User.UserRoles;
-import org.lifestyle.api.model.User.UserStatus;
 
 /**
  *

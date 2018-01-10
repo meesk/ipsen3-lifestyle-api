@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.Product;
+import org.lifestyle.api.model.ProductNutrient;
 
 /**
  *
@@ -26,34 +27,13 @@ public class ProductDAO {
     
     private final List<Product> products;
     private final Database db;
+    private final ProductNutrientDAO pnDAO;
 
     @Inject
     public ProductDAO() {
         products = new ArrayList<>();
-        
-        Product product1 = new Product();
-        product1.setProductId(124);
-        product1.setProductName("Test product");
-//        product1.setProductDescription("Product description");
-        product1.setManufacturerName("Kellog's");
-        product1.setMeasurement("mg");
-        product1.setAmount(100);
-        product1.setIsAdded(true);
-        product1.setIsConfirmed(false);
-        products.add(product1);
-        
-        Product product2 = new Product();
-        product2.setProductId(123);
-        product2.setProductName("Test product2");
-//        product2.setProductDescription("Product description2");
-        product2.setManufacturerName("lala");
-        product2.setMeasurement("g");
-        product2.setAmount(200);
-        product2.setIsAdded(true);
-        product2.setIsConfirmed(true);
-        products.add(product2);
-        
         db = new Database();
+        pnDAO = new ProductNutrientDAO();
     }
 
     public void addBulk(Product[] knowledge) {
@@ -63,18 +43,34 @@ public class ProductDAO {
     }
 
     public void add(Product product){
-//        if(!product.getProduct().trim().isEmpty()){
-//            try{
-//                Connection con = db.getConnection();
-//                PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge) values(?)");
-//                ps.setString(1, product.getProduct());
-//                ps.execute();
-//                con.close();
-//            }catch(SQLException e){
-//                e.printStackTrace();
-//            }
-//        }else{
-//        }
+        
+        int key = 0;
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO product (naam, fabrikantnaam, commentaar, hoeveelheid, meeteenheid, is_bevestigd, is_toegevoegd) "
+                    + "VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,product.getProductName());
+            ps.setString(2,product.getManufacturerName());
+            ps.setString(3, product.getComments());
+            ps.setInt(4,product.getAmount());
+            ps.setString(5, product.getMeasurement());
+            ps.setBoolean(6, product.getIsConfirmed());
+            ps.setBoolean(7, product.getIsAdded());
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (rs.next()) {
+                key = rs.getInt(1);
+            }
+            System.out.println(key);
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+            for(ProductNutrient pn : product.getProductNutrients()){
+                pn.setProductId(key);
+                pnDAO.add(pn);
+            }
             products.add(product);
     }
 
@@ -83,7 +79,7 @@ public class ProductDAO {
         try{
             Connection con = db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from product order by is_toegevoegd DESC limit 100");
+            ResultSet rs = st.executeQuery("select * from product order by is_toegevoegd DESC, is_bevestigd ASC limit 100");
             Product product;
             while(rs.next()){
                 product = new Product();
@@ -108,33 +104,36 @@ public class ProductDAO {
     public void update(int id, Product product){ 
         try{
             Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE product set product = ? where id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE product SET naam = ?,"
+                    + " fabrikantnaam = ?,"
+                    + " hoeveelheid = ?,"
+                    + " meeteenheid = ?,"
+                    + " is_bevestigd = ?"
+                    + " WHERE productcode = ?");
             ps.setString(1,product.getProductName());
-            ps.setString(1,product.getManufacturerName());
-            ps.setInt(1,product.getAmount());
-            ps.setBoolean(1, product.getIsConfirmed());
-            ps.setInt(2,id);
+            ps.setString(2,product.getManufacturerName());
+            ps.setInt(3,product.getAmount());
+            ps.setString(4, product.getMeasurement());
+            ps.setBoolean(5, product.getIsConfirmed());
+            ps.setInt(6,id);
             ps.execute();
             db.closeConnection(con);
         }catch(SQLException e){
             e.printStackTrace();
         }
-        System.out.println("PRODUCTID: " + id);
-        System.out.println("PRODUCT: " + product);
     }
     
-    public void delete(List<Integer> id){
-//        for(int x : id){
-//            try{
-//                Connection con = db.getConnection();
-//                PreparedStatement ps = con.prepareStatement("delete from product where id = ?");
-//                ps.setInt(1, x);
-//                ps.execute();
-//                db.closeConnection(con);
-//            }catch(SQLException e){
-//                e.printStackTrace();
-//            }
-//        }
+    public void delete(int id){
+            try{
+                Connection con = db.getConnection();
+                PreparedStatement ps = con.prepareStatement("DELETE FROM product WHERE productcode = ?");
+                ps.setInt(1, id);
+                ps.execute();
+                System.out.println("HELLO " + id);
+                db.closeConnection(con);
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
     }
     
 }
