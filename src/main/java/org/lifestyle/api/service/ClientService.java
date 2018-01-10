@@ -44,6 +44,10 @@ public class ClientService extends BaseService<Client> {
     public void updateClient(String format, Client client){
       dao.updateClient(format, client);
     }
+    
+    public void transferClient(int client_id, int coach_id) {
+        dao.transferClient(client_id, coach_id);
+    }
 }
 
 

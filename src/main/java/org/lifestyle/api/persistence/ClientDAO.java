@@ -211,6 +211,31 @@ public class ClientDAO {
             return null;
         }
     }
+    
+    public void transferClient(int client_id, int coach_id) {
+        System.out.println("INSIDE THE TRANSFER CLIENT : " + client_id + " COACH : " + coach_id);
+        
+        
+        try{
+            Connection con = db.getConnection();
+            
+            String query = "UPDATE client SET coach_id = ? WHERE id = ?;";
+
+            PreparedStatement update_user = con.prepareStatement(query);
+
+            update_user.setInt(1, coach_id);
+            update_user.setInt(2, client_id);
+            
+
+            update_user.executeUpdate();
+            
+            System.out.println("I FINISHED AND WORKED @TRANSFER");
+            
+          db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
             
     
 }
