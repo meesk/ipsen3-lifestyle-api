@@ -18,7 +18,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Knowledge {
     
     @NotEmpty
-    @Length(max = 100)
     @JsonView(View.Public.class)
     private String knowledge;
     
