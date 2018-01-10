@@ -4,6 +4,8 @@ package org.lifestyle.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 import org.lifestyle.api.View;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -16,13 +18,24 @@ import org.hibernate.validator.constraints.NotEmpty;
 // * @author Peter van Vliet
 // */
 public class User implements Principal
-{
-    public enum UserStatus {
-        ACTIVE, INACTIVE, NOT_CONFIRMED;
-    }
-    
+{   
     public enum UserRoles {
-        COACH, ADMIN
+        COACH(1), ADMIN(2);
+        
+        private final int userRole;
+        private static Map<Integer, UserRoles> map = new HashMap<Integer, UserRoles>();
+        
+        static {
+        for (UserRoles userRole : UserRoles.values()) {
+            map.put(userRole.userRole, userRole);
+        }
+    }
+        
+        UserRoles(int userRole) { this.userRole = userRole; }
+        public int getValue() { return userRole; }
+        public static UserRoles valueOf(int userRole) {
+            return map.get(userRole);
+        }
     }
     
     @JsonView(View.Public.class)
@@ -54,9 +67,6 @@ public class User implements Principal
     
     @JsonView(View.Public.class)
     private UserRoles role;
-    
-    @JsonView(View.Public.class)
-    private UserStatus status;
     
     @JsonView(View.Internal.class)
     private byte[] salt;
@@ -137,24 +147,6 @@ public class User implements Principal
      */
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    /**
-     * @return the status
-     */
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = UserStatus.valueOf(status.toUpperCase());
     }
     
     public boolean isRole(String role)
