@@ -31,35 +31,13 @@ public class KnowledgeDAO {
     public KnowledgeDAO() {
         knows = new ArrayList<>();
         db = new Database();
-        
-        Knowledge k1 = new Knowledge();
-        k1.setAddedBy(0);
-        k1.setConfirmed(true);
-        k1.setId(0);
-        k1.setKnowledge("hello world is you best friend");
-        
-        Knowledge k2 = new Knowledge();
-        k2.setAddedBy(0);
-        k2.setConfirmed(true);
-        k2.setId(0);
-        k2.setKnowledge("hello world is you best friend2");
-        
-        Knowledge k3 = new Knowledge();
-        k3.setAddedBy(0);
-        k3.setConfirmed(true);
-        k3.setId(0);
-        k3.setKnowledge("hello world is you best friend3");
-        
-        knowledgeList.add(k1);
-        knowledgeList.add(k2);
-        knowledgeList.add(k3);
     }
 
     public void add(Knowledge knowledge){
         if(!knowledge.getKnowledge().trim().isEmpty()){
             try{
                 Connection con = db.getConnection();
-                PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge,addedBy,confirmed) values(?,?,?);");
+                PreparedStatement ps = con.prepareStatement("insert into kennis(tip,toegevoegd_door,bevestigd) values(?,?,?);");
                 ps.setString(1, knowledge.getKnowledge().trim());
                 ps.setInt(2,knowledge.getAddedBy());
                 ps.setBoolean(3, knowledge.getConfirmed());
@@ -73,33 +51,33 @@ public class KnowledgeDAO {
     }
 
     public List<Knowledge> getAll() {
-        return knowledgeList;
-//        knows.clear();
-//        try{
-//            Connection con = db.getConnection();
-//            Statement st = con.createStatement();
-//            ResultSet rs = st.executeQuery("select * from knowledge order by confirmed,id;");
-//            Knowledge know;
-//            while(rs.next()){
-//                know = new Knowledge();
-//                know.setKnowledge(rs.getString("knowledge").trim());
-//                know.setId(rs.getInt("id"));
-//                know.setAddedBy(rs.getInt("addedby"));
-//                know.setConfirmed(rs.getBoolean("confirmed"));
-//                knows.add(know);
-//            }
-//            db.closeConnection(con);
-//            return knows;
-//        }catch(SQLException e){
-//            e.printStackTrace();
-//            return null;
-//        }
+//        return knowledgeList;
+        knows.clear();
+        try{
+            Connection con = db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from kennis order by bevestigd,id;");
+            Knowledge know;
+            while(rs.next()){
+                know = new Knowledge();
+                know.setKnowledge(rs.getString("tip").trim());
+                know.setId(rs.getInt("id"));
+                know.setAddedBy(rs.getInt("toegevoegd_door"));
+                know.setConfirmed(rs.getBoolean("bevestigd"));
+                knows.add(know);
+            }
+            db.closeConnection(con);
+            return knows;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public void update(int id,Knowledge knowledge){ 
         try{
             Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement("update knowledge set knowledge = ?, confirmed = ? where id = ?;");
+            PreparedStatement ps = con.prepareStatement("update kennis set tip = ?, bevestigd = ? where id = ?;");
             ps.setString(1,knowledge.getKnowledge());
             ps.setBoolean(2, knowledge.getConfirmed());
             ps.setInt(3,id);
@@ -114,7 +92,7 @@ public class KnowledgeDAO {
         for(int x : id){
             try{
                 Connection con = db.getConnection();
-                PreparedStatement ps = con.prepareStatement("delete from knowledge where id = ?;");
+                PreparedStatement ps = con.prepareStatement("delete from kennis where id = ?;");
                 ps.setInt(1, x);
                 ps.execute();
                 db.closeConnection(con);
