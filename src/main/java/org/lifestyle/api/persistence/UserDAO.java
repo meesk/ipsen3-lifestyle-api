@@ -43,7 +43,7 @@ public class UserDAO {
                 user.setEmailAddress(rs.getString("email"));
                 user.setPassword(rs.getString("wachtwoord"));
                 user.setRole(User.UserRoles.valueOf(rs.getInt("rol_id")));
-
+                
                 users.add(user);
             }
             

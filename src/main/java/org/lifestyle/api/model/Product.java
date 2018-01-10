@@ -2,6 +2,7 @@ package org.lifestyle.api.model;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.lifestyle.api.View;
 import org.hibernate.validator.constraints.Length;
@@ -23,8 +24,7 @@ public class Product {
     @JsonView(View.Public.class)
     private String productName;
     
-    @NotEmpty
-    @Length(min = 2, max = 100)
+    
     @JsonView(View.Public.class)
     private String manufacturerName;
     
@@ -48,6 +48,19 @@ public class Product {
     @NotNull
     @JsonView(View.Public.class)
     private Boolean isConfirmed;
+    
+    @JsonView(View.Public.class)
+    private List<ProductNutrient> productNutrients;
+
+    public List<ProductNutrient> getProductNutrients() {
+        return productNutrients;
+    }
+
+    public void setProductNutrients(List<ProductNutrient> productNutrients) {
+        this.productNutrients = productNutrients;
+    }
+    
+    
 
     public Integer getProductId() {
         return productId;

@@ -66,16 +66,16 @@ public class ClientResource {
         return service.getCoachClients(id);
     }
     
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createClient(@Valid Client client){
      
-        System.out.println(client.getBirthDate());
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         String format = formatter.format(client.getBirthDate());
-        System.out.println(format);
-       
+        
+        System.out.println(client.getCoachID());
         service.addClient(format, client);
         
     }
@@ -100,6 +100,18 @@ public class ClientResource {
        System.out.println(format);
        
        service.updateClient(format, client);
+    }
+    
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void transferClient(@PathParam("id")int id,int coach_id){
+        
+       System.out.println("USER ID : " + id);
+       System.out.println("COACH ID : " + coach_id);
+       
+       service.transferClient(id, coach_id);
     }
     
 }
