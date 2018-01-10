@@ -3,6 +3,7 @@ package org.lifestyle.api.service;
 import java.util.Collection;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.Client;
+import org.lifestyle.api.model.User;
 import org.lifestyle.api.persistence.ClientDAO;
 
 /**
@@ -19,7 +20,13 @@ public class ClientService extends BaseService<Client> {
     }
     
     public Collection<Client> getAllClients(){
+        
         return dao.getClient();
+    }
+    
+    public Collection<Client> getCoachClients(int id){
+        
+        return dao.getCoachClients(id);
     }
     
     public void addClient(Client client){
