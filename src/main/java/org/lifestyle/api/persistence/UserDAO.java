@@ -88,7 +88,8 @@ public class UserDAO {
     public void add(User user) {
         try {
             Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("insert into gebruiker values"
+            PreparedStatement ps = con.prepareStatement("insert into gebruiker"
+                    + " (voornaam, tussenvoegsel, achternaam, wachtwoord, rol_id, email) values"
                     + " (?, ?, ?, ?, ?, ?);");
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getMiddleName());
@@ -96,7 +97,7 @@ public class UserDAO {
             ps.setString(4, user.getPassword());
             ps.setInt(5, user.getRole().getValue());
             ps.setString(6, user.getEmailAddress());
-            ps.executeQuery();
+            ps.executeUpdate();
             
             DB.closeConnection(con);
         } catch (SQLException e) {
@@ -110,7 +111,7 @@ public class UserDAO {
             PreparedStatement ps = con.prepareStatement("update gebruiker set "
                     + "voornaam = ?, tussenvoegsel = ?, achternaam = ? "
                     + "wachtwoord = ?, rol_id = ?, email = ? "
-                    + "where gebruiker_id = ?;");
+                    + "where id = ?;");
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getMiddleName());
             ps.setString(3, user.getLastName());
@@ -118,7 +119,7 @@ public class UserDAO {
             ps.setInt(5, user.getRole().getValue());
             ps.setString(6, user.getEmailAddress());
             ps.setInt(7, id);
-            ps.executeQuery();
+            ps.executeUpdate();
             
             DB.closeConnection(con);
         } catch (SQLException e) {
@@ -129,10 +130,10 @@ public class UserDAO {
     public void delete(int id) {
         try {
             Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("delete * from gebruiker"
-                    + " where gebruiker_id = ?;");
+            PreparedStatement ps = con.prepareStatement("delete from gebruiker"
+                    + " where id = ?;");
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.executeUpdate();
             
             DB.closeConnection(con);
         } catch (SQLException e) {
