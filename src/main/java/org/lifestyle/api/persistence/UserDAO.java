@@ -17,27 +17,22 @@ import org.lifestyle.api.model.User;
  */
 @Singleton
 public class UserDAO {
-
+ 
     private final List<User> users, transferOptions;
+
     private Database DB;
 
     public UserDAO() {
-        
         this.DB = new Database();
+
         users = new ArrayList<>();
         transferOptions = new ArrayList<>();
-        fillUsers();
         
     }
 
     public List<User> getAll() {
-        fillUsers();
-        return users;
-    }
-
-    public void fillUsers() {
-        
-        users.clear();
+         
+        List<User> users = new ArrayList<User>();
         
         try {
             Connection con = DB.getConnection();
@@ -51,15 +46,9 @@ public class UserDAO {
                 user.setFirstName(rs.getString("voornaam"));
                 user.setMiddleName(rs.getString("tussenvoegsel"));
                 user.setLastName(rs.getString("achternaam"));
-                
                 user.setEmailAddress(rs.getString("email"));
                 user.setPassword(rs.getString("wachtwoord"));
-                
-                if(rs.getInt("rol_id") == 1) {
-                    user.setRole(User.UserRoles.COACH.toString());
-                } else {
-                    user.setRole(User.UserRoles.ADMIN.toString());
-                }
+                user.setRole(User.UserRoles.valueOf(rs.getInt("rol_id")));
                 
                 users.add(user);
             }
@@ -68,6 +57,8 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        return users;
     }
     
     public List possibleTransferOptions(int id) {
@@ -117,7 +108,7 @@ public class UserDAO {
     }
 
     public User getById(int id) {
-        Optional<User> result = users.stream()
+        Optional<User> result = getAll().stream()
                 .filter(user -> user.getUserId() == id)
                 .findAny();
 
@@ -127,7 +118,7 @@ public class UserDAO {
     }
 
     public User getByName(String name) {
-        Optional<User> result = users.stream()
+        Optional<User> result = getAll().stream()
                 .filter(user -> user.getName().equals(name))
                 .findAny();
 
@@ -137,7 +128,7 @@ public class UserDAO {
     }
 
     public User getByEmailAddress(String emailAddress) {
-        Optional<User> result = users.stream()
+        Optional<User> result = getAll().stream()
                 .filter(user -> user.getEmailAddress().equals(emailAddress))
                 .findAny();
 
@@ -147,30 +138,58 @@ public class UserDAO {
     }
 
     public void add(User user) {
-        users.add(user);
+        try {
+            Connection con = DB.getConnection();
+            PreparedStatement ps = con.prepareStatement("insert into gebruiker"
+                    + " (voornaam, tussenvoegsel, achternaam, wachtwoord, rol_id, email) values"
+                    + " (?, ?, ?, ?, ?, ?);");
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getMiddleName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, user.getPassword());
+            ps.setInt(5, user.getRole().getValue());
+            ps.setString(6, user.getEmailAddress());
+            ps.executeUpdate();
+            
+            DB.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(int id, User user) {
-        int index = -1;
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUserId() == id) {
-                index = i;
-            }
-        }
-        if (index != -1) {
-            users.set(index, user);
+        try {
+            Connection con = DB.getConnection();
+            PreparedStatement ps = con.prepareStatement("update gebruiker set "
+                    + "voornaam = ?, tussenvoegsel = ?, achternaam = ? "
+                    + "wachtwoord = ?, rol_id = ?, email = ? "
+                    + "where id = ?;");
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getMiddleName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, user.getPassword());
+            ps.setInt(5, user.getRole().getValue());
+            ps.setString(6, user.getEmailAddress());
+            ps.setInt(7, id);
+            ps.executeUpdate();
+            
+            DB.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     public void delete(int id) {
-        int index = -1;
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUserId() == id) {
-                index = i;
-            }
-        }
-        if (index != -1) {
-            users.remove(index);
+        try {
+            Connection con = DB.getConnection();
+            PreparedStatement ps = con.prepareStatement("delete from gebruiker"
+                    + " where id = ?;");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            
+            DB.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
