@@ -7,8 +7,9 @@
 package org.lifestyle.api.resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import java.time.Clock;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -68,9 +69,15 @@ public class ClientResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createClient(@Valid Client client){
-        service.addClient(client);
-        System.out.println(client.getName());
-        System.out.println(client.getHeight());
+     
+        System.out.println(client.getBirthDate());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        String format = formatter.format(client.getBirthDate());
+        System.out.println(format);
+       
+        service.addClient(format, client);
+        
     }
     
     @Path("/{id}")
@@ -87,10 +94,12 @@ public class ClientResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateClient(@PathParam("id")int id,Client client){
-       System.out.println(client.getFirstName());
-       System.out.println(client.getHeight());
-       System.out.println(client.getClientID());
-       service.updateClient(client);
+        
+       SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+       String format = formatter.format(client.getBirthDate());
+       System.out.println(format);
+       
+       service.updateClient(format, client);
     }
     
 }

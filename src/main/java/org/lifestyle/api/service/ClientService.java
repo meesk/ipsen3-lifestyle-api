@@ -29,20 +29,20 @@ public class ClientService extends BaseService<Client> {
         return dao.getCoachClients(id);
     }
     
-    public void addClient(Client client){
-        dao.addClient(client);
+    public void addClient(String date, Client client){
+        dao.addClient(date, client);
     }
     
     public void getClient(int id){
-        dao.get(id);
+        dao.getClient();
     }
     
     public void deleteClient(int id){
         dao.removeClient(id);
     }
     
-    public void updateClient(Client client){
-      dao.updateClient(client);
+    public void updateClient(String format, Client client){
+      dao.updateClient(format, client);
     }
 }
 
