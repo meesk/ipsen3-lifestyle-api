@@ -2,6 +2,7 @@ package org.lifestyle.api.model;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.lifestyle.api.View;
@@ -15,6 +16,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 // * @author Peter van Vliet
 // */
 public class Product {
+    
+    public Product(){
+        productNutrients = new ArrayList<>();
+    }
     
     @JsonView(View.Public.class)
     private Integer productId;
@@ -60,8 +65,10 @@ public class Product {
         this.productNutrients = productNutrients;
     }
     
+    public void addProductNutrient(ProductNutrient pn){
+        this.productNutrients.add(pn);
+    }
     
-
     public Integer getProductId() {
         return productId;
     }

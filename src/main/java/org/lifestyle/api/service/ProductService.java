@@ -37,6 +37,10 @@ public class ProductService {
     public Collection<Product> getAll(){
         return dao.getAll();
     }
+      
+    public Collection<Product> getAllWithNutrients(){
+        return dao.getAllWithNutrients();
+    }
     
     public void update(int id, Product product){
         dao.update(id,product);

@@ -101,6 +101,48 @@ public class ProductDAO {
         }
     }
     
+        public List<Product> getAllWithNutrients() {
+        products.clear();
+        try{
+            Connection con = db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from product order by is_toegevoegd DESC, is_bevestigd ASC limit 100");
+            Product product;
+            while(rs.next()){
+                product = new Product();
+                product.setProductId(rs.getInt("productcode"));
+                product.setProductName(rs.getString("naam"));
+                product.setComments(rs.getString("commentaar"));
+                product.setManufacturerName(rs.getString("fabrikantnaam"));
+                product.setAmount(rs.getInt("hoeveelheid"));
+                product.setMeasurement(rs.getString("meeteenheid"));
+                product.setIsAdded(rs.getBoolean("is_toegevoegd"));
+                product.setIsConfirmed(rs.getBoolean("is_bevestigd"));
+                PreparedStatement ps = con.prepareStatement("select * from product_voedingswaarde WHERE productcode = ? ORDER BY voedingswaarde_id");
+                ps.setInt(1, product.getProductId());
+                ResultSet rs2 = ps.executeQuery();
+                ProductNutrient pn;
+                while(rs2.next()){
+                    pn = new ProductNutrient();
+                    pn.setNutrientId(rs2.getInt("voedingswaarde_id"));
+                    pn.setProductId(rs2.getInt("productcode"));
+                    pn.setAmount(rs2.getBigDecimal("aantal"));
+                    try {
+                        product.addProductNutrient(pn);
+                    }catch(NullPointerException ex){
+                        System.out.println("productnutrient: " + pn.getProductId() + " " + pn.getNutrientId());
+                    }
+                }
+                products.add(product);
+            }
+            db.closeConnection(con);
+            return products;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public void update(int id, Product product){ 
         try{
             Connection con = db.getConnection();
