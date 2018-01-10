@@ -56,6 +56,18 @@ public class UserResource
         return service.getById(id);
     }
     
+    @GET
+    @Path("/{id}")
+    @JsonView(View.Public.class)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("COACH")
+    public Collection<User> getTransferOptions(@PathParam("id") int id)
+    {
+        System.out.println("HEY IM IN THE TRANSFER OPTIONS! : " + id);
+        return service.getTransferOptions(id);
+    }
+    
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)

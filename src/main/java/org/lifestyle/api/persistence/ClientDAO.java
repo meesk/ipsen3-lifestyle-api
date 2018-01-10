@@ -173,7 +173,7 @@ public class ClientDAO {
        try{
             Connection con = db.getConnection();
             
-            String query = "select * from client where coach_id=?;";
+            String query = "SELECT c.* FROM client c JOIN gebruiker g ON c.coach_id = g.id WHERE g.id = ?;";
             PreparedStatement allUsers = con.prepareStatement(query);
             
             allUsers.setInt(1, id);
@@ -197,7 +197,7 @@ public class ClientDAO {
                 allClients.add(client);
            }
             
-            System.out.println("GOT ALL THE CLIENTS : " + allClients);
+            System.out.println("GOT ALL THE CLIENTS : " + allClients.size());
             
           db.closeConnection(con);
             return allClients;

@@ -25,6 +25,11 @@ public class UserService extends BaseService<User>
     {
         return dao.getAll();
     }
+    
+    public Collection<User> getTransferOptions(int id) {
+        return dao.possibleTransferOptions(id);
+    }
+    
      /**
       * @author DannyY
       * @return all users with their information
