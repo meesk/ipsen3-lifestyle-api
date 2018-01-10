@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Singleton;
-import org.lifestyle.api.model.Client;
 import org.lifestyle.api.model.User;
-import org.lifestyle.api.model.User.UserRoles;
-import org.lifestyle.api.model.User.UserStatus;
 
 /**
  *
@@ -112,7 +109,7 @@ public class UserDAO {
                 user.setEmailAddress(rs.getString("email"));
                 user.setPassword(rs.getString("wachtwoord"));
                 
-                if(rs.getInt("coach_id") == 1) 
+                if(rs.getInt("rol_id") == 1) 
                     user.setRole(User.UserRoles.COACH.toString());
                 else
                     user.setRole(User.UserRoles.ADMIN.toString());

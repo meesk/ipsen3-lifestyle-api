@@ -5,6 +5,10 @@
  */
 package org.lifestyle.api.persistence;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -20,25 +24,12 @@ public class NutrientDAO {
     
     
     private final List<Nutrient> nutrients;
-//    private final Database db;
+    private final Database db;
 
     @Inject
     public NutrientDAO() {
         nutrients = new ArrayList<>();
-        
-        Nutrient nutrient1 = new Nutrient();
-        nutrient1.setNutrientId(1);
-        nutrient1.setNutrientName("Koolhydraten");
-        nutrient1.setNutrientMeasurement("g");
-        nutrients.add(nutrient1);
-        
-        Nutrient nutrient2 = new Nutrient();
-        nutrient2.setNutrientId(2);
-        nutrient2.setNutrientName("Vezels");
-        nutrient2.setNutrientMeasurement("g");
-        nutrients.add(nutrient2);
-        
-//        db = new Database();
+        db = new Database();
     }
 
     public void addBulk(Nutrient[] nutrient) {
@@ -64,25 +55,25 @@ public class NutrientDAO {
     }
 
     public List<Nutrient> getAll() {
-//        products.clear();
-//        try{
-//            Connection con = db.getConnection();
-//            Statement st = con.createStatement();
-//            ResultSet rs = st.executeQuery("select * from product order by id");
-//            Product product;
-//            while(rs.next()){
-//                product = new Product();
-////                know.setKnowledge(rs.getString("knowledge"));
-////                know.setId(rs.getInt("id"));
-//                products.add(product);
-//            }
-//            db.closeConnection(con);
-//            return products;
-//        }catch(SQLException e){
-//            e.printStackTrace();
-//            return null;
-//        }
-          return nutrients;
+        nutrients.clear();
+        try{
+            Connection con = db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from voedingswaarde order by id");
+            Nutrient nutrient;
+            while(rs.next()){
+                nutrient = new Nutrient();
+                nutrient.setNutrientId(rs.getInt("id"));
+                nutrient.setNutrientMeasurement(rs.getString("eenheid"));
+                nutrient.setNutrientName(rs.getString("naam"));
+                nutrients.add(nutrient);
+            }
+            db.closeConnection(con);
+            return nutrients;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public void update(int id, Nutrient nutrient){ 

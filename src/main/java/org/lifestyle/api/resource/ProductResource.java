@@ -48,10 +48,11 @@ public class ProductResource {
     public Collection<Product> getAll(){
         return service.getAll();
     }
-    
+
+    @Path("/{id}")    
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public void delete(@QueryParam("id")List<Integer> id){
+    public void delete(@PathParam("id")int id){
         service.delete(id);
     }
     
@@ -65,15 +66,8 @@ public class ProductResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addToDAO(@Valid Product product){
+    public void addToDAO(@Valid Product product){
         service.insert(product);
-        
-        String json = Json.createObjectBuilder()
-            .add("id", 5)
-            .build()
-            .toString();
-        
-        return Response.status(200).entity(json).build();
     }
     
     @Path("/{id}")

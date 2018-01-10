@@ -42,7 +42,7 @@ public class ProductService {
         dao.update(id,product);
     }
     
-    public void delete(List<Integer> id){
+    public void delete(int id){
         dao.delete(id);
     }
     
