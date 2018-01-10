@@ -48,6 +48,14 @@ public class ProductResource {
     public Collection<Product> getAll(){
         return service.getAll();
     }
+    
+    @Path("/nutrients")
+    @GET
+    @JsonView(View.Private.class)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Product> getAllWithNutrients(){
+        return service.getAllWithNutrients();
+    }
 
     @Path("/{id}")    
     @DELETE
