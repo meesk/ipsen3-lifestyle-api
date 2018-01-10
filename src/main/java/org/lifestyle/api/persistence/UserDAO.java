@@ -112,8 +112,10 @@ public class UserDAO {
                 user.setEmailAddress(rs.getString("email"));
                 user.setPassword(rs.getString("wachtwoord"));
                 
-                if(rs.getInt("coach_id") == 1) {
+                if(rs.getInt("rol_id") == 1) {
                     user.setRole(User.UserRoles.COACH.toString());
+                } else {
+                    user.setRole(User.UserRoles.ADMIN.toString());
                 }
                 
                 users.add(user);
