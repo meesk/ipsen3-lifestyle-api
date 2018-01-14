@@ -31,8 +31,6 @@ public class ProductNutrientDAO
         return productNutrients;
     }
     
-    
-    
     public void add(ProductNutrient pn) {
         try{
             Connection con = db.getConnection();
@@ -50,8 +48,30 @@ public class ProductNutrientDAO
     }
     
     public void update(int id, ProductNutrient pn) {
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("UPDATE product_voedingswaarde SET aantal = ? WHERE productcode = ? AND voedingswaarde_id = ?");
+            ps.setBigDecimal(1, pn.getAmount());
+            ps.setInt(2,pn.getProductId());
+            ps.setInt(3,pn.getNutrientId());
+            ps.execute();
+            
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
     
-    public void delete(int id) {
+    public void delete(int prodId) {
+         try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("DELETE FROM product_voedingswaarde WHERE productcode = ?");
+            ps.setInt(1, prodId);
+            ps.execute();
+            
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
