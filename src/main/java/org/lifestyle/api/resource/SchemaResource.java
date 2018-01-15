@@ -7,6 +7,8 @@ package org.lifestyle.api.resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.auth.Auth;
+import java.util.Collection;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.lifestyle.api.View;
 import org.lifestyle.api.model.FeedingSchema;
@@ -27,6 +30,7 @@ import org.lifestyle.api.service.SchemaService;
  */
 @Singleton
 @Path("/schemas")
+@Produces(MediaType.APPLICATION_JSON)
 public class SchemaResource {
     
     private SchemaDAO dao;
@@ -43,9 +47,9 @@ public class SchemaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed({"COACH"})
-    public void getAll(@Auth User user)
+    public Collection<FeedingSchema> getAll(@Auth User user)
     {
-        service.getAll(user);
+        return service.getAll(user);
     }
     
     @GET
