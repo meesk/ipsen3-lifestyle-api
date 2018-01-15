@@ -16,31 +16,24 @@ import org.lifestyle.api.View;
  */
 public class FeedingSegment {
 
-    @NotEmpty
     @JsonView(View.Public.class)
     private int id;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private int feedingScheduleId;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private int productCode;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private Product product;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private String feedingTime;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private String feedingDay;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private int quantity;
     

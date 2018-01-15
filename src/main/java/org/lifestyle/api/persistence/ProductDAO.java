@@ -79,7 +79,7 @@ public class ProductDAO {
         try{
             Connection con = db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from product order by is_toegevoegd DESC, is_bevestigd ASC limit 100");
+            ResultSet rs = st.executeQuery("select * from product order by is_toegevoegd DESC, is_bevestigd ASC");
             Product product;
             while(rs.next()){
                 product = new Product();

@@ -17,19 +17,15 @@ import org.lifestyle.api.View;
  */
 public class FeedingSchema {
 
-    @NotEmpty
     @JsonView(View.Public.class)
     private int id;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private int clientId;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private List<FeedingSegment> feedingSegments;
     
-    @NotEmpty
     @JsonView(View.Public.class)
     private Date createdOn;
     

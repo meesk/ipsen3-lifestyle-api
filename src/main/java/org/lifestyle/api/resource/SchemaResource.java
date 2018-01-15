@@ -8,12 +8,13 @@ package org.lifestyle.api.resource;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.auth.Auth;
 import java.util.Collection;
-import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -38,7 +39,7 @@ public class SchemaResource {
     private final SchemaService service;
     
     @Inject
-    public SchemaResource(SchemaService service){
+    public SchemaResource(SchemaService service) {
         this.service = service;
         this.dao = new SchemaDAO();
     }
@@ -47,9 +48,26 @@ public class SchemaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed({"COACH"})
-    public Collection<FeedingSchema> getAll(@Auth User user)
-    {
+    public Collection<FeedingSchema> getAll(@Auth User user) {
         return service.getAll(user);
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(View.Protected.class)
+    @RolesAllowed({"COACH"})
+    public void insert(FeedingSchema schema) {
+        service.insert(schema);
+    }
+    
+    @DELETE
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Protected.class)
+    @RolesAllowed({"COACH"})
+    public void delete(@PathParam("id") int id){
+        service.delete(id);
     }
     
     @GET

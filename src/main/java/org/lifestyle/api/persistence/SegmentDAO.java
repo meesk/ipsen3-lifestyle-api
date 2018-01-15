@@ -75,4 +75,17 @@ public class SegmentDAO {
             e.printStackTrace();
         }
     }
+    
+    public void remove(int schemaId) {
+        try{
+            Connection con = db.getConnection();
+            System.out.println("ID SCHEMA: " + schemaId);
+            PreparedStatement ps = con.prepareStatement("DELETE FROM voedingsegment WHERE voedingschema_id = ?");
+            ps.setInt(1, schemaId);
+            ps.execute();
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

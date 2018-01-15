@@ -18,7 +18,7 @@ public class SchemaService extends BaseService<FeedingSchema> {
     
     private final SchemaDAO dao;
     
-    public SchemaService(){
+    public SchemaService() {
         this.dao = new SchemaDAO();
     }
     
@@ -28,5 +28,13 @@ public class SchemaService extends BaseService<FeedingSchema> {
     
     public FeedingSchema getDetail(User user, int id){
         return dao.getDetail(user, id);
+    }
+    
+    public void delete(int id){
+        dao.remove(id);
+    }
+    
+    public void insert(FeedingSchema schema){
+        dao.add(schema);
     }
 }

@@ -89,14 +89,14 @@ public class SchemaDAO {
         }
     }
     
-    public void add(FeedingSchema schema, User user){
+    public void add(FeedingSchema schema){
         int generatedKey = 0;
         try{
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement("INSERT INTO voedingschema (client_id, aangemaakt_op) "
                     + "VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, schema.getClientId());
-            ps.setDate(2, schema.getCreatedOn());
+            ps.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             
@@ -112,6 +112,20 @@ public class SchemaDAO {
             SegmentDAO segmentDAO = new SegmentDAO();
             for ( FeedingSegment segment: schema.getFeedingSegments())
                 segmentDAO.add(segment, generatedKey);
+        }
+    }
+    
+    public void remove(int schemaId){
+        try{
+            SegmentDAO segmentDAO = new SegmentDAO();
+            segmentDAO.remove(schemaId);
+            Connection con = db.getConnection();
+            System.out.println("ID: " + schemaId);
+            PreparedStatement ps = con.prepareStatement("DELETE FROM voedingschema WHERE id = ?");
+            ps.setInt(1, schemaId);
+            ps.execute();
+        }catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
 }
