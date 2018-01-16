@@ -6,6 +6,7 @@
 package org.lifestyle.api.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +33,24 @@ public class NutrientDAO {
         db = new Database();
     }
 
+    public void createNewDb(){
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS temp_voedingswaarde;");
+            ps.execute();
+            ps = con.prepareStatement("CREATE TABLE temp_voedingswaarde (" +
+                "  id int(11) NOT NULL AUTO_INCREMENT," +
+                "  naam varchar(50) NOT NULL," +
+                "  eenheid varchar(5) NOT NULL," +
+                "  PRIMARY KEY (id)" +
+                ");");
+            ps.execute();
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
     public void addBulk(Nutrient[] nutrient) {
         for (Nutrient x : nutrient) {
             add(x);
@@ -39,19 +58,17 @@ public class NutrientDAO {
     }
 
     public void add(Nutrient nutrient){
-//        if(!product.getProduct().trim().isEmpty()){
-//            try{
-//                Connection con = db.getConnection();
-//                PreparedStatement ps = con.prepareStatement("insert into knowledge(knowledge) values(?)");
-//                ps.setString(1, product.getProduct());
-//                ps.execute();
-//                con.close();
-//            }catch(SQLException e){
-//                e.printStackTrace();
-//            }
-//        }else{
-//        }
-            nutrients.add(nutrient);
+      try{
+          Connection con = db.getConnection();
+          PreparedStatement ps = con.prepareStatement("insert into temp_voedingswaarde(id,naam,eenheid) values(?,?,?);");
+          ps.setInt(1, nutrient.getNutrientId());
+          ps.setString(2, nutrient.getNutrientName());
+          ps.setString(3, nutrient.getNutrientMeasurement());
+          ps.execute();
+          db.closeConnection(con);
+      }catch(SQLException e){
+          
+      }
     }
 
     public List<Nutrient> getAll() {

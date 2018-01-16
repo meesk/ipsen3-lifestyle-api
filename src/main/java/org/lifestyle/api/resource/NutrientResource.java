@@ -54,6 +54,12 @@ public class NutrientResource {
         service.delete(id);
     }
     
+    @Path("/newDB")
+    @POST
+    public void newDB(){
+        service.newDB();
+    }
+    
     @Path("/bulk")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

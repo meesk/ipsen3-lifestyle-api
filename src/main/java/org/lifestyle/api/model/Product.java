@@ -42,7 +42,7 @@ public class Product {
     @JsonView(View.Public.class)
     private String measurement;
     
-    @Length(min = 1, max = 40)
+    
     @JsonView(View.Public.class)
     private String comments;
     

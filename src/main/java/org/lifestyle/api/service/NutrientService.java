@@ -46,4 +46,7 @@ public class NutrientService {
         dao.delete(id);
     }
     
+    public void newDB(){
+        dao.createNewDb();
+    }
 }

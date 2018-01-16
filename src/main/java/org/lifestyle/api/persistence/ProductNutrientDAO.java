@@ -46,6 +46,21 @@ public class ProductNutrientDAO
             e.printStackTrace();
         }
     }
+    public void addTemp(ProductNutrient pn) {
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO temp_product_voedingswaarde (voedingswaarde_id, productcode, aantal) "
+                    + "VALUES (?,?,?)");
+            ps.setInt(1,pn.getNutrientId());
+            ps.setInt(2,pn.getProductId());
+            ps.setBigDecimal(3, pn.getAmount());
+            ps.execute();
+            
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
     public void update(int id, ProductNutrient pn) {
         try{

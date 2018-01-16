@@ -34,6 +34,18 @@ public class ProductService {
         dao.add(product);
     }
     
+    public void deleteTable(){
+        dao.deleteTable();
+    }
+    
+    public void insertTemp(Product product){
+        dao.addTemp(product);
+    }
+    
+    public void createTable(){
+        dao.createTable();
+    }
+    
     public Collection<Product> getAll(){
         return dao.getAll();
     }
