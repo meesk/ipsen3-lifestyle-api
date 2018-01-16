@@ -11,6 +11,8 @@ import java.util.Collection;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -57,8 +59,12 @@ public class SchemaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed({"COACH"})
-    public void insert(FeedingSchema schema) {
-        service.insert(schema);
+    public String insert(FeedingSchema schema) {
+        int id = service.insert(schema);
+       String value = Json.createObjectBuilder()
+        .add("id", id).build().toString();
+       
+       return value;
     }
     
     @DELETE

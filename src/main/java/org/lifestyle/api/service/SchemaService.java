@@ -34,7 +34,7 @@ public class SchemaService extends BaseService<FeedingSchema> {
         dao.remove(id);
     }
     
-    public void insert(FeedingSchema schema){
-        dao.add(schema);
+    public int insert(FeedingSchema schema){
+        return dao.add(schema);
     }
 }

@@ -89,7 +89,7 @@ public class SchemaDAO {
         }
     }
     
-    public void add(FeedingSchema schema){
+    public int add(FeedingSchema schema){
         int generatedKey = 0;
         try{
             Connection con = db.getConnection();
@@ -113,6 +113,7 @@ public class SchemaDAO {
             for ( FeedingSegment segment: schema.getFeedingSegments())
                 segmentDAO.add(segment, generatedKey);
         }
+        return generatedKey;
     }
     
     public void remove(int schemaId){
