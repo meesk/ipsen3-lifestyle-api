@@ -71,16 +71,8 @@ public class ProductDAO {
             ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_productcode FOREIGN KEY (productcode) REFERENCES product(productcode);");
             ps.execute();
             db.closeConnection(con);
-            makeConstraints();
         }catch(SQLException e){
             e.printStackTrace();
-        }
-    }
-    
-    public void makeConstraints(){
-        try{
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(";");
         }
     }
     
