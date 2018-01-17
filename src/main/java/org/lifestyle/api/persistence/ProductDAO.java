@@ -56,27 +56,20 @@ public class ProductDAO {
     public void renameTable(){
         try{
             Connection con = db.getConnection();
-            System.out.println("Start rename prod");
-            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS product_voedingswaarde;");
-            ps.execute();
-            System.out.println("Dropped it");
-            ps = con.prepareStatement("ALTER TABLE voedingsegment DROP FOREIGN KEY fk_voedingsegment_product;");
+            PreparedStatement ps = con.prepareStatement("ALTER TABLE voedingsegment DROP FOREIGN KEY fk_voedingsegment_product;");
             ps.execute();
             ps = con.prepareStatement("DROP TABLE IF EXISTS product;");
             ps.execute();
-            System.out.println("Droppeed productssss");
             ps = con.prepareStatement("RENAME TABLE temp_product TO product;");
             ps.execute();
             ps = con.prepareStatement("RENAME TABLE temp_product_voedingswaarde TO product_voedingswaarde;");
             ps.execute();
-            System.out.println("Altered names;");
             ps = con.prepareStatement("ALTER TABLE voedingsegment ADD CONSTRAINT fk_voedingsegment_product FOREIGN KEY(productcode) REFERENCES product(productcode);");
             ps.execute();
             ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_voedingswaarde FOREIGN KEY(voedingswaarde_id) REFERENCES voedingswaarde(id);");
             ps.execute();
             ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_productcode FOREIGN KEY (productcode) REFERENCES product(productcode);");
             ps.execute();
-            System.out.println("Hier ben ik nu");
             db.closeConnection(con);
         }catch(SQLException e){
             e.printStackTrace();
@@ -99,7 +92,7 @@ public class ProductDAO {
             ps.execute();
             db.closeConnection(con);
         }catch(SQLException e){
-            
+            e.printStackTrace();
         }
     }
 
@@ -123,7 +116,6 @@ public class ProductDAO {
             if (rs.next()) {
                 key = rs.getInt(1);
             }
-            System.out.println(key);
             db.closeConnection(con);
         }catch(SQLException e){
             e.printStackTrace();
