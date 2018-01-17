@@ -26,12 +26,28 @@ public class ProductService {
         this.dao=dao;
     }
     
+    public void renameTable(){
+        dao.renameTable();
+    }
+    
     public void insertBulk(Product[] product){
         dao.addBulk(product);
     }
     
     public void insert(Product product){
         dao.add(product);
+    }
+    
+    public void deleteTable(){
+        dao.deleteTable();
+    }
+    
+    public void insertTemp(Product product){
+        dao.addTemp(product);
+    }
+    
+    public void createTable(){
+        dao.createTable();
     }
     
     public Collection<Product> getAll(){

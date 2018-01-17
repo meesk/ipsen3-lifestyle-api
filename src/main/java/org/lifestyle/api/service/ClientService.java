@@ -3,8 +3,10 @@ package org.lifestyle.api.service;
 import java.util.Collection;
 import javax.inject.Singleton;
 import org.lifestyle.api.model.Client;
+import org.lifestyle.api.model.FeedingSchema;
 import org.lifestyle.api.model.User;
 import org.lifestyle.api.persistence.ClientDAO;
+import org.lifestyle.api.persistence.SchemaDAO;
 
 /**
  *
@@ -47,6 +49,11 @@ public class ClientService extends BaseService<Client> {
     
     public void transferClient(int client_id, int coach_id) {
         dao.transferClient(client_id, coach_id);
+    }
+    
+    public Collection<FeedingSchema> getClientSchemas(User user, int clientId) {
+        SchemaDAO schemaDAO = new SchemaDAO();
+        return schemaDAO.getByClientId(user, clientId);
     }
 }
 

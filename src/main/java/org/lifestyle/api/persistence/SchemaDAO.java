@@ -64,6 +64,34 @@ public class SchemaDAO {
         }
     }
     
+    public List<FeedingSchema> getByClientId(User user, int clientId) {
+        List<FeedingSchema> schemas = new ArrayList<FeedingSchema>();
+        
+        try{
+            Connection con = db.getConnection();
+            
+            PreparedStatement ps = con.prepareStatement("select * from voedingschema v "
+                    + "join client c on v.client_id = c.id where c.coach_id = ? and c.id = ?;");
+            ps.setInt(1, user.getUserId());
+            ps.setInt(2, clientId);
+            ResultSet rs = ps.executeQuery();
+            
+            FeedingSchema schema;
+            while(rs.next()){
+                schema = new FeedingSchema();
+                schema.setId(rs.getInt("id"));
+                schema.setClientId(rs.getInt("client_id"));
+                schema.setCreatedOn(rs.getDate("aangemaakt_op"));
+                schemas.add(schema);
+            }
+            db.closeConnection(con);
+            return schemas;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public List<FeedingSchema> getAll(User user) {
         List<FeedingSchema> schemas = new ArrayList<FeedingSchema>();
         

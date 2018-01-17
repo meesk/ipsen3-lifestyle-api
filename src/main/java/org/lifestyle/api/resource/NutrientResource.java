@@ -54,6 +54,12 @@ public class NutrientResource {
         service.delete(id);
     }
     
+    @Path("/newDB")
+    @POST
+    public void newDB(){
+        service.newDB();
+    }
+    
     @Path("/bulk")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -65,6 +71,12 @@ public class NutrientResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addToDAO(@Valid Nutrient nutrient){
         service.insert(nutrient);
+    }
+    
+    @Path("/table")
+    @PUT
+    public void renameTable(){
+        service.renameTable();
     }
     
     @Path("/{id}")

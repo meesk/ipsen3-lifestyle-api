@@ -72,6 +72,25 @@ public class ProductResource {
         service.delete(id);
     }
     
+    @Path("/tempTable")
+    @DELETE
+    public void delteTable(){
+        service.deleteTable();
+    }
+    
+    @Path("/table")
+    @POST
+    public void createTable(){
+        service.createTable();
+    }
+    
+    @Path("/temp")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void insertTemp(@Valid Product prod){
+        service.insertTemp(prod);
+    }
+    
     @Path("/bulk")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -84,6 +103,12 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void addToDAO(@Valid Product product){
         service.insert(product);
+    }
+    
+    @Path("/table")
+    @PUT
+    public void renameTables(){
+        service.renameTable();
     }
     
     @Path("/{id}")

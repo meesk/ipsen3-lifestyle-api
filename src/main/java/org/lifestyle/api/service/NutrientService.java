@@ -26,6 +26,10 @@ public class NutrientService {
         this.dao=dao;
     }
     
+    public void renameTable(){
+        dao.renameTable();
+
+    }
     public void insertBulk(Nutrient[] product){
         dao.addBulk(product);
     }
@@ -46,4 +50,7 @@ public class NutrientService {
         dao.delete(id);
     }
     
+    public void newDB(){
+        dao.createNewDb();
+    }
 }

@@ -38,10 +38,102 @@ public class ProductDAO {
 
     public void addBulk(Product[] knowledge) {
         for (Product x : knowledge) {
-            add(x);
+            addTemp(x);
+        }
+    }
+    
+    public void deleteTable(){
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS temp_product_voedingswaarde;");
+            ps.execute();
+            db.closeConnection(con);
+        }catch(SQLException e){
+            
+        }
+    }
+    
+    public void renameTable(){
+        try{
+            Connection con = db.getConnection();
+            System.out.println("Start rename prod");
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS product_voedingswaarde;");
+            ps.execute();
+            System.out.println("Dropped it");
+            ps = con.prepareStatement("ALTER TABLE voedingsegment DROP FOREIGN KEY fk_voedingsegment_product;");
+            ps.execute();
+            ps = con.prepareStatement("DROP TABLE IF EXISTS product;");
+            ps.execute();
+            System.out.println("Droppeed productssss");
+            ps = con.prepareStatement("RENAME TABLE temp_product TO product;");
+            ps.execute();
+            ps = con.prepareStatement("RENAME TABLE temp_product_voedingswaarde TO product_voedingswaarde;");
+            ps.execute();
+            System.out.println("Altered names;");
+            ps = con.prepareStatement("ALTER TABLE voedingsegment ADD CONSTRAINT fk_voedingsegment_product FOREIGN KEY(productcode) REFERENCES product(productcode);");
+            ps.execute();
+            ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_voedingswaarde FOREIGN KEY(voedingswaarde_id) REFERENCES voedingswaarde(id);");
+            ps.execute();
+            ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_productcode FOREIGN KEY (productcode) REFERENCES product(productcode);");
+            ps.execute();
+            System.out.println("Hier ben ik nu");
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void createTable(){
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS temp_product;");
+            ps.execute();
+            ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS temp_product( productcode int(11) not null auto_increment, naam varchar(150) not null, "+
+                    " fabrikantnaam varchar(50) default null, hoeveelheid int(11) not null, meeteenheid varchar(5) default null, "+
+                    "commentaar varchar(500) default null, is_toegevoegd int(1) not null default '0', "+
+                    "is_bevestigd int(1) not null default '0', primary key(productcode));");
+            ps.execute();
+            ps=con.prepareStatement("CREATE TABLE IF NOT EXISTS temp_product_voedingswaarde( voedingswaarde_id int(11) NOT NULL, productcode int(11) NOT NULL,"+
+                    " aantal varchar(20) DEFAULT NULL, PRIMARY KEY (voedingswaarde_id,productcode), CONSTRAINT fk_temp_productv_productcode FOREIGN KEY"+
+                    " (productcode) REFERENCES temp_product (productcode), CONSTRAINT fk_temp_productv_voedingswaarde FOREIGN KEY (voedingswaarde_id) REFERENCES temp_voedingswaarde(id));");
+            ps.execute();
+            db.closeConnection(con);
+        }catch(SQLException e){
+            
         }
     }
 
+    public void addTemp(Product product){
+        
+        int key = 0;
+        try{
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO temp_product (naam, fabrikantnaam, commentaar, hoeveelheid, meeteenheid, is_bevestigd, is_toegevoegd) "
+                    + "VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,product.getProductName());
+            ps.setString(2,product.getManufacturerName());
+            ps.setString(3, product.getComments());
+            ps.setInt(4,product.getAmount());
+            ps.setString(5, product.getMeasurement());
+            ps.setBoolean(6, product.getIsConfirmed());
+            ps.setBoolean(7, product.getIsAdded());
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (rs.next()) {
+                key = rs.getInt(1);
+            }
+            System.out.println(key);
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+            for(ProductNutrient pn : product.getProductNutrients()){
+                pn.setProductId(key);
+                pnDAO.addTemp(pn);
+            }
+    }
+    
     public void add(Product product){
         
         int key = 0;
