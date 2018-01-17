@@ -7,6 +7,7 @@
 package org.lifestyle.api.resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.dropwizard.auth.Auth;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -26,6 +27,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.lifestyle.api.View;
 import org.lifestyle.api.model.Client;
+import org.lifestyle.api.model.FeedingSchema;
 import org.lifestyle.api.model.User;
 import org.lifestyle.api.persistence.ClientDAO;
 import org.lifestyle.api.service.ClientService;
@@ -66,6 +68,14 @@ public class ClientResource {
         return service.getCoachClients(id);
     }
     
+    @Path("/{id}/schemas")     
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<FeedingSchema> getSchemasByClientId(@Auth User user, @PathParam("id") int id){
+
+        return service.getClientSchemas(user, id);
+    }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
