@@ -56,9 +56,13 @@ public class ProductDAO {
     public void renameTable(){
         try{
             Connection con = db.getConnection();
+            try{
             PreparedStatement ps = con.prepareStatement("ALTER TABLE voedingsegment DROP FOREIGN KEY fk_voedingsegment_product;");
             ps.execute();
-            ps = con.prepareStatement("DROP TABLE IF EXISTS product;");
+            }catch(SQLException e){
+                
+            }
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS product;");
             ps.execute();
             ps = con.prepareStatement("RENAME TABLE temp_product TO product;");
             ps.execute();
@@ -116,6 +120,7 @@ public class ProductDAO {
             if (rs.next()) {
                 key = rs.getInt(1);
             }
+            System.out.println(key);
             db.closeConnection(con);
         }catch(SQLException e){
             e.printStackTrace();
