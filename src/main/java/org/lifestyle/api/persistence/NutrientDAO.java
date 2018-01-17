@@ -66,14 +66,18 @@ public class NutrientDAO {
             System.out.println("Dropped that");
             ps = con.prepareStatement("ALTER TABLE temp_product_voedingswaarde DROP FOREIGN KEY fk_temp_productv_productcode;");
             ps.execute();
+            System.out.println("Genageld");
+            ps = con.prepareStatement("DROP TABLE IF EXISTS product_voedingswaarde;");
+            ps.execute();
             ps = con.prepareStatement("DROP TABLE IF EXISTS voedingswaarde;");
             ps.execute();
+            System.out.println("Dropped that");
             ps = con.prepareStatement("RENAME TABLE temp_voedingswaarde TO voedingswaarde;");
             ps.execute();
             System.out.println("Klaar");
             db.closeConnection(con);
         }catch(SQLException e){
-            
+            e.printStackTrace();
         }
     }
     
