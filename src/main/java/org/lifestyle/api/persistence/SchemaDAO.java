@@ -36,8 +36,10 @@ public class SchemaDAO {
             Connection con = db.getConnection();
             
             PreparedStatement ps = con.prepareStatement("select * from voedingschema v "
-                    + "join client c on v.client_id = c.id join voedingschema s on c.id = s.client_id "
-                    + "where c.coach_id = ? and s.id = ?;");
+                    + "join client c on v.client_id = c.id "
+                    + "where c.coach_id = ? and v.id = ?;");
+            System.out.println("user: " + user.getUserId());
+            System.out.println("schemaId: " + schemaId);
             ps.setInt(1, user.getUserId());
             ps.setInt(2, schemaId);
             ResultSet rs = ps.executeQuery();

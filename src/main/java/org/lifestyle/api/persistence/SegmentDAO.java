@@ -9,12 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.lifestyle.api.model.FeedingSchema;
 import org.lifestyle.api.model.FeedingSegment;
-import org.lifestyle.api.model.User;
+import org.lifestyle.api.model.Product;
 
 /**
  *
@@ -48,6 +46,9 @@ public class SegmentDAO {
                 segment.setFeedingDay(rs.getString("voeding_dag"));
                 segment.setProductCode(rs.getInt("productcode"));
                 segment.setQuantity(rs.getInt("hoeveelheid"));
+                ProductDAO pDAO = new ProductDAO();
+                Product p = pDAO.getWithNutrients(segment.getProductCode());
+                segment.setProduct(p);
                 segments.add(segment);
             }
             db.closeConnection(con);
