@@ -26,6 +26,10 @@ public class ProductService {
         this.dao=dao;
     }
     
+    public void renameTable(){
+        dao.renameTable();
+    }
+    
     public void insertBulk(Product[] product){
         dao.addBulk(product);
     }

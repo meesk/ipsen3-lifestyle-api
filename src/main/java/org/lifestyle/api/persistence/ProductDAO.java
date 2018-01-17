@@ -53,6 +53,36 @@ public class ProductDAO {
         }
     }
     
+    public void renameTable(){
+        try{
+            Connection con = db.getConnection();
+            System.out.println("Start rename prod");
+            PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS product_voedingswaarde;");
+            ps.execute();
+            System.out.println("Dropped it");
+            ps = con.prepareStatement("ALTER TABLE voedingsegment DROP FOREIGN KEY fk_voedingsegment_product;");
+            ps.execute();
+            ps = con.prepareStatement("DROP TABLE IF EXISTS product;");
+            ps.execute();
+            System.out.println("Droppeed productssss");
+            ps = con.prepareStatement("RENAME TABLE temp_product TO product;");
+            ps.execute();
+            ps = con.prepareStatement("RENAME TABLE temp_product_voedingswaarde TO product_voedingswaarde;");
+            ps.execute();
+            System.out.println("Altered names;");
+            ps = con.prepareStatement("ALTER TABLE voedingsegment ADD CONSTRAINT fk_voedingsegment_product FOREIGN KEY(productcode) REFERENCES product(productcode);");
+            ps.execute();
+            ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_voedingswaarde FOREIGN KEY(voedingswaarde_id) REFERENCES voedingswaarde(id);");
+            ps.execute();
+            ps = con.prepareStatement("ALTER TABLE product_voedingswaarde ADD CONSTRAINT fk_productv_productcode FOREIGN KEY (productcode) REFERENCES product(productcode);");
+            ps.execute();
+            System.out.println("Hier ben ik nu");
+            db.closeConnection(con);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
     public void createTable(){
         try{
             Connection con = db.getConnection();
@@ -64,7 +94,7 @@ public class ProductDAO {
                     "is_bevestigd int(1) not null default '0', primary key(productcode));");
             ps.execute();
             ps=con.prepareStatement("CREATE TABLE IF NOT EXISTS temp_product_voedingswaarde( voedingswaarde_id int(11) NOT NULL, productcode int(11) NOT NULL,"+
-                    " aantal varchar(20) DEFAULT NULL, PRIMARY KEY (voedingswaarde_id,productcode), KEY fk_temp_product_productcode(productcode), CONSTRAINT fk_temp_productv_productcode FOREIGN KEY"+
+                    " aantal varchar(20) DEFAULT NULL, PRIMARY KEY (voedingswaarde_id,productcode), CONSTRAINT fk_temp_productv_productcode FOREIGN KEY"+
                     " (productcode) REFERENCES temp_product (productcode), CONSTRAINT fk_temp_productv_voedingswaarde FOREIGN KEY (voedingswaarde_id) REFERENCES temp_voedingswaarde(id));");
             ps.execute();
             db.closeConnection(con);

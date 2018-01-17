@@ -105,6 +105,12 @@ public class ProductResource {
         service.insert(product);
     }
     
+    @Path("/table")
+    @PUT
+    public void renameTables(){
+        service.renameTable();
+    }
+    
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)

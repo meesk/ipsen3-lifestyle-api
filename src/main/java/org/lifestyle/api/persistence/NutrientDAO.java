@@ -53,11 +53,45 @@ public class NutrientDAO {
     
     public void addBulk(Nutrient[] nutrient) {
         for (Nutrient x : nutrient) {
-            add(x);
+            addTemp(x);
         }
     }
 
+    public void renameTable(){
+        try{
+            Connection con = db.getConnection();
+            System.out.println("Start rename nutrient");
+            PreparedStatement ps = con.prepareStatement("ALTER TABLE temp_product_voedingswaarde DROP FOREIGN KEY fk_temp_productv_voedingswaarde;");
+            ps.execute();
+            System.out.println("Dropped that");
+            ps = con.prepareStatement("ALTER TABLE temp_product_voedingswaarde DROP FOREIGN KEY fk_temp_productv_productcode;");
+            ps.execute();
+            ps = con.prepareStatement("DROP TABLE IF EXISTS voedingswaarde;");
+            ps.execute();
+            ps = con.prepareStatement("RENAME TABLE temp_voedingswaarde TO voedingswaarde;");
+            ps.execute();
+            System.out.println("Klaar");
+            db.closeConnection(con);
+        }catch(SQLException e){
+            
+        }
+    }
+    
     public void add(Nutrient nutrient){
+      try{
+          Connection con = db.getConnection();
+          PreparedStatement ps = con.prepareStatement("insert into voedingswaarde(id,naam,eenheid) values(?,?,?);");
+          ps.setInt(1, nutrient.getNutrientId());
+          ps.setString(2, nutrient.getNutrientName());
+          ps.setString(3, nutrient.getNutrientMeasurement());
+          ps.execute();
+          db.closeConnection(con);
+      }catch(SQLException e){
+          
+      }
+    }
+    
+    public void addTemp(Nutrient nutrient){
       try{
           Connection con = db.getConnection();
           PreparedStatement ps = con.prepareStatement("insert into temp_voedingswaarde(id,naam,eenheid) values(?,?,?);");

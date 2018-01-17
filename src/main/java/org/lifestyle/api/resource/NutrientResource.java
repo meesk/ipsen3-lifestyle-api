@@ -73,6 +73,12 @@ public class NutrientResource {
         service.insert(nutrient);
     }
     
+    @Path("/table")
+    @PUT
+    public void renameTable(){
+        service.renameTable();
+    }
+    
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
